@@ -1,8 +1,15 @@
-import { MenuItem, Select, styled } from '@mui/material';
+import { FormControlLabel, MenuItem, Radio, Select, styled } from '@mui/material';
 import { useState } from 'react';
 
 function Home() {
     const dates = computeDates();
+    const dayMoments = computeDayMoments();
+    const currentDayMoment = dayMoments.find((dayMoment) => {
+        const currentTime = new Date().toTimeString().slice(0, 5);
+        return dayMoment.computer(currentTime);
+    });
+    const [selectedDayMoment, setSelectedDayMoment] = useState(currentDayMoment);
+
     const [selectedDate, setSelectedDate] = useState(dates.find((date) => date.key === 'today'));
     return (
         <Container>
@@ -16,6 +23,20 @@ function Home() {
                     </MenuItem>
                 ))}
             </Select>
+            <RadioButtonsContainer>
+                {dayMoments.map((dayMoment) => (
+                    <FormControlLabel
+                        key={dayMoment.key}
+                        control={
+                            <Radio
+                                checked={selectedDayMoment?.key === dayMoment.key}
+                                onChange={() => setSelectedDayMoment(dayMoment)}
+                            />
+                        }
+                        label={dayMoment.label}
+                    />
+                ))}
+            </RadioButtonsContainer>
         </Container>
     );
 
@@ -35,6 +56,35 @@ function Home() {
         };
         return [yesterday, today];
     }
+
+    function computeDayMoments(): Array<{
+        key: string;
+        label: string;
+        computer: (time: string) => boolean;
+    }> {
+        return [
+            {
+                key: 'waking-up',
+                label: 'Réveil',
+                computer: (time) => time >= '04:00' && time < '10:00',
+            },
+            {
+                key: 'morning',
+                label: 'Matin',
+                computer: (time) => time >= '10:00' && time < '13:00',
+            },
+            {
+                key: 'afternoon',
+                label: 'Après-midi',
+                computer: (time) => time >= '13:00' && time < '18:00',
+            },
+            {
+                key: 'evening',
+                label: 'Soirée',
+                computer: (time) => time >= '18:00' && time < '24:00',
+            },
+        ];
+    }
 }
 
 function convertDateToString(date: Date): string {
@@ -44,5 +94,9 @@ function convertDateToString(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
+const RadioButtonsContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+}));
 const Container = styled('div')(({ theme }) => ({}));
 export { Home };
