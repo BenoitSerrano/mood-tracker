@@ -2,7 +2,7 @@ import { FormControlLabel, MenuItem, Radio, Select, styled, Typography } from '@
 import { useState } from 'react';
 import { emotionMapping } from '../constants';
 
-const TIME_SELECTION_HEIGHT = '70px';
+const TIME_SELECTION_HEIGHT = '100px';
 
 function Home() {
     const dates = computeDates();
@@ -134,11 +134,18 @@ const TimeSelectionContainer = styled('div')(({ theme }) => ({
     height: TIME_SELECTION_HEIGHT,
     gap: theme.spacing(2),
 }));
-const DateSelect = styled(Select)(({ theme }) => ({ flex: 1 }));
+const DateSelect = styled(Select)(({ theme }) => ({ flex: 1, height: '100%' }));
 
 const RadioButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        ' .MuiRadio-root': {
+            paddingTop: 0,
+            paddingBottom: 0,
+        },
+    },
 }));
 const MajorEmotionsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
