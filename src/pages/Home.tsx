@@ -129,12 +129,13 @@ const TimeSelectionContainer = styled('div')(({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
     height: TIME_SELECTION_HEIGHT,
     gap: theme.spacing(2),
 }));
-const DateSelect = styled(Select)(({ theme }) => ({ flex: 1, height: '100%' }));
+const DateSelect = styled(Select)(({ theme }) => ({
+    flex: 1,
+    padding: theme.spacing(2),
+}));
 
 const RadioButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -160,9 +161,10 @@ const MajorEmotionContainer = styled('div')(({ theme }) => ({
     flex: 1,
     flexDirection: 'row',
 }));
-const MinorEmotionContainer = styled('div')<{ color: string }>(({ theme, color }) => ({
+const MinorEmotionContainer = styled('button')<{ color: string }>(({ theme, color }) => ({
     backgroundColor: color,
     borderRadius: theme.shape.borderRadius,
+    borderColor: color,
     flex: 1,
     justifyContent: 'center',
     display: 'flex',
