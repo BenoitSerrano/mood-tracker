@@ -67,7 +67,7 @@ function Home() {
                         <MinorEmotionContainer
                             onClick={buildOnClickHandler(
                                 minorEmotion.key,
-                                'tension',
+                                'happiness',
                                 selectedDayMoment,
                                 selectedDate,
                             )}
@@ -83,7 +83,7 @@ function Home() {
                         <MinorEmotionContainer
                             onClick={buildOnClickHandler(
                                 minorEmotion.key,
-                                'tension',
+                                'sadness',
                                 selectedDayMoment,
                                 selectedDate,
                             )}
