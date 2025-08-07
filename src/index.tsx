@@ -6,6 +6,7 @@ import { Router } from './routes/Router';
 import { ThemeProvider, styled } from '@mui/material';
 import { theme } from './theme';
 import { AlertHandlerContextProvider } from './lib/alert';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const queryClient = new QueryClient();

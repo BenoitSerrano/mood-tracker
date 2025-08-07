@@ -1,5 +1,8 @@
-import { FormControlLabel, MenuItem, Radio, Select, styled } from '@mui/material';
+import { FormControlLabel, MenuItem, Radio, Select, styled, Typography } from '@mui/material';
 import { useState } from 'react';
+import { emotionMapping } from '../constants';
+
+const TIME_SELECTION_HEIGHT = '70px';
 
 function Home() {
     const dates = computeDates();
@@ -13,30 +16,57 @@ function Home() {
     const [selectedDate, setSelectedDate] = useState(dates.find((date) => date.key === 'today'));
     return (
         <Container>
-            <Select
-                value={selectedDate?.key}
-                onChange={(e) => setSelectedDate(dates.find((date) => date.key === e.target.value))}
-            >
-                {dates.map((date) => (
-                    <MenuItem key={date.key} value={date.key}>
-                        {date.label}
-                    </MenuItem>
-                ))}
-            </Select>
-            <RadioButtonsContainer>
-                {dayMoments.map((dayMoment) => (
-                    <FormControlLabel
-                        key={dayMoment.key}
-                        control={
-                            <Radio
-                                checked={selectedDayMoment?.key === dayMoment.key}
-                                onChange={() => setSelectedDayMoment(dayMoment)}
-                            />
-                        }
-                        label={dayMoment.label}
-                    />
-                ))}
-            </RadioButtonsContainer>
+            <TimeSelectionContainer>
+                <DateSelect
+                    value={selectedDate?.key}
+                    onChange={(e) =>
+                        setSelectedDate(dates.find((date) => date.key === e.target.value))
+                    }
+                >
+                    {dates.map((date) => (
+                        <MenuItem key={date.key} value={date.key}>
+                            {date.label}
+                        </MenuItem>
+                    ))}
+                </DateSelect>
+                <RadioButtonsContainer>
+                    {dayMoments.map((dayMoment) => (
+                        <FormControlLabel
+                            key={dayMoment.key}
+                            control={
+                                <Radio
+                                    checked={selectedDayMoment?.key === dayMoment.key}
+                                    onChange={() => setSelectedDayMoment(dayMoment)}
+                                />
+                            }
+                            label={dayMoment.label}
+                        />
+                    ))}
+                </RadioButtonsContainer>
+            </TimeSelectionContainer>
+            <MajorEmotionsContainer>
+                <MajorEmotionContainer key="happiness">
+                    {emotionMapping.happiness.map((minorEmotion) => (
+                        <MinorEmotionContainer key={minorEmotion.key} color={minorEmotion.color}>
+                            <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
+                        </MinorEmotionContainer>
+                    ))}
+                </MajorEmotionContainer>
+                <MajorEmotionContainer key="sadness">
+                    {emotionMapping.sadness.map((minorEmotion) => (
+                        <MinorEmotionContainer key={minorEmotion.key} color={minorEmotion.color}>
+                            <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
+                        </MinorEmotionContainer>
+                    ))}
+                </MajorEmotionContainer>
+                <MajorEmotionContainer key="tension">
+                    {emotionMapping.tension.map((minorEmotion) => (
+                        <MinorEmotionContainer key={minorEmotion.key} color={minorEmotion.color}>
+                            <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
+                        </MinorEmotionContainer>
+                    ))}
+                </MajorEmotionContainer>
+            </MajorEmotionsContainer>
         </Container>
     );
 
@@ -94,9 +124,48 @@ function convertDateToString(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
+const TimeSelectionContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    height: TIME_SELECTION_HEIGHT,
+    gap: theme.spacing(2),
+}));
+const DateSelect = styled(Select)(({ theme }) => ({ flex: 1 }));
+
 const RadioButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
 }));
-const Container = styled('div')(({ theme }) => ({}));
+const MajorEmotionsContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    height: `calc(100% - ${TIME_SELECTION_HEIGHT})`,
+    gap: theme.spacing(1),
+}));
+const MajorEmotionContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    gap: theme.spacing(1),
+    flex: 1,
+    flexDirection: 'row',
+}));
+const MinorEmotionContainer = styled('div')<{ color: string }>(({ theme, color }) => ({
+    backgroundColor: color,
+    borderRadius: theme.shape.borderRadius,
+    flex: 1,
+    justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+}));
+const Container = styled('div')(({ theme }) => ({
+    height: '100vh',
+}));
+const MinorEmotionLabel = styled(Typography)(({ theme }) => ({
+    color: theme.palette.common.black,
+}));
 export { Home };

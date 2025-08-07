@@ -3,6 +3,9 @@ import { palette } from './palette';
 
 const theme = createTheme({
     palette,
+    shape: {
+        borderRadius: 8,
+    },
     spacing: (value: number) => value * 4,
     components: {
         MuiDialogTitle: { styleOverrides: { root: { fontSize: '1.5rem', fontWeight: 'bold' } } },
