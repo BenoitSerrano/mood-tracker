@@ -1,10 +1,31 @@
+type moodDtoType = {
+    minor: minorEmotionType;
+    major: majorEmotionType;
+    dayMoment: string;
+    day: string;
+};
+
 const majorEmotions = ['happiness', 'sadness', 'tension'] as const;
+const minorEmotions = [
+    'content',
+    'cheerful',
+    'happy',
+    'elated',
+    'down',
+    'sad',
+    'depressed',
+    'despaired',
+    'uneasy',
+    'nervous',
+    'anxious',
+    'panicked',
+] as const;
 
 type majorEmotionType = (typeof majorEmotions)[number];
+type minorEmotionType = (typeof minorEmotions)[number];
+type minorEmotionMappingType = { key: minorEmotionType; color: string; label: string };
 
-type minorEmotionType = { key: string; color: string; label: string };
-
-const emotionMapping: Record<majorEmotionType, minorEmotionType[]> = {
+const emotionMapping: Record<majorEmotionType, minorEmotionMappingType[]> = {
     happiness: [
         { key: 'content', color: '#D4EDB0', label: 'Content' },
         { key: 'cheerful', color: '#B2E672', label: 'Cheerful' },
@@ -26,3 +47,4 @@ const emotionMapping: Record<majorEmotionType, minorEmotionType[]> = {
 };
 
 export { emotionMapping };
+export type { moodDtoType, majorEmotionType, minorEmotionType };

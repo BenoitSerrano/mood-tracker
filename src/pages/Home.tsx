@@ -1,42 +1,59 @@
 import { FormControlLabel, MenuItem, Radio, Select, styled, Typography } from '@mui/material';
 import { useState } from 'react';
-import { emotionMapping } from '../constants';
+import { emotionMapping, majorEmotionType, minorEmotionType, moodDtoType } from '../types';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../lib/api';
+import { useApiCall } from '../lib/api/useApiCall';
+import { useAlert } from '../lib/alert';
 
+type dayMomentType = 'waking-up' | 'morning' | 'afternoon' | 'evening';
+type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '100px';
 
 function Home() {
+    const { displayAlert } = useAlert();
+
     const dates = computeDates();
     const dayMoments = computeDayMoments();
-    const currentDayMoment = dayMoments.find((dayMoment) => {
+    const currentDayMoment = Object.entries(dayMoments).find(([_key, dayMoment]) => {
         const currentTime = new Date().toTimeString().slice(0, 5);
         return dayMoment.computer(currentTime);
+    })?.[0] as dayMomentType | undefined;
+    useQuery({ queryFn: api.ping, queryKey: ['ping'], refetchOnWindowFocus: true });
+
+    const createMoodApiCall = useApiCall({
+        apiCall: api.createMood,
+        onSuccess: () => {
+            displayAlert({
+                variant: 'success',
+                text: 'Mood saved successfully!',
+            });
+        },
     });
     const [selectedDayMoment, setSelectedDayMoment] = useState(currentDayMoment);
 
-    const [selectedDate, setSelectedDate] = useState(dates.find((date) => date.key === 'today'));
+    const [selectedDate, setSelectedDate] = useState<selectedDateType>('today');
     return (
         <Container>
             <TimeSelectionContainer>
                 <DateSelect
-                    value={selectedDate?.key}
-                    onChange={(e) =>
-                        setSelectedDate(dates.find((date) => date.key === e.target.value))
-                    }
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value as selectedDateType)}
                 >
-                    {dates.map((date) => (
-                        <MenuItem key={date.key} value={date.key}>
+                    {Object.entries(dates).map(([key, date]) => (
+                        <MenuItem key={key} value={key}>
                             {date.label}
                         </MenuItem>
                     ))}
                 </DateSelect>
                 <RadioButtonsContainer>
-                    {dayMoments.map((dayMoment) => (
+                    {Object.entries(dayMoments).map(([key, dayMoment]) => (
                         <FormControlLabel
-                            key={dayMoment.key}
+                            key={key}
                             control={
                                 <Radio
-                                    checked={selectedDayMoment?.key === dayMoment.key}
-                                    onChange={() => setSelectedDayMoment(dayMoment)}
+                                    checked={selectedDayMoment === key}
+                                    onChange={() => setSelectedDayMoment(key as dayMomentType)}
                                 />
                             }
                             label={dayMoment.label}
@@ -47,21 +64,48 @@ function Home() {
             <MajorEmotionsContainer>
                 <MajorEmotionContainer key="happiness">
                     {emotionMapping.happiness.map((minorEmotion) => (
-                        <MinorEmotionContainer key={minorEmotion.key} color={minorEmotion.color}>
+                        <MinorEmotionContainer
+                            onClick={buildOnClickHandler(
+                                minorEmotion.key,
+                                'tension',
+                                selectedDayMoment,
+                                selectedDate,
+                            )}
+                            key={minorEmotion.key}
+                            color={minorEmotion.color}
+                        >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
                         </MinorEmotionContainer>
                     ))}
                 </MajorEmotionContainer>
                 <MajorEmotionContainer key="sadness">
                     {emotionMapping.sadness.map((minorEmotion) => (
-                        <MinorEmotionContainer key={minorEmotion.key} color={minorEmotion.color}>
+                        <MinorEmotionContainer
+                            onClick={buildOnClickHandler(
+                                minorEmotion.key,
+                                'tension',
+                                selectedDayMoment,
+                                selectedDate,
+                            )}
+                            key={minorEmotion.key}
+                            color={minorEmotion.color}
+                        >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
                         </MinorEmotionContainer>
                     ))}
                 </MajorEmotionContainer>
                 <MajorEmotionContainer key="tension">
                     {emotionMapping.tension.map((minorEmotion) => (
-                        <MinorEmotionContainer key={minorEmotion.key} color={minorEmotion.color}>
+                        <MinorEmotionContainer
+                            onClick={buildOnClickHandler(
+                                minorEmotion.key,
+                                'tension',
+                                selectedDayMoment,
+                                selectedDate,
+                            )}
+                            key={minorEmotion.key}
+                            color={minorEmotion.color}
+                        >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
                         </MinorEmotionContainer>
                     ))}
@@ -75,45 +119,54 @@ function Home() {
         const yesterdayDate = new Date(todayDate);
         yesterdayDate.setDate(todayDate.getDate() - 1);
         const today = {
-            key: 'today',
             date: convertDateToString(todayDate),
             label: "Aujourd'hui",
         };
         const yesterday = {
-            key: 'yesterday',
             date: convertDateToString(yesterdayDate),
             label: 'Hier',
         };
-        return [yesterday, today];
+        return { today, yesterday };
     }
 
-    function computeDayMoments(): Array<{
-        key: string;
-        label: string;
-        computer: (time: string) => boolean;
-    }> {
-        return [
-            {
-                key: 'waking-up',
+    function buildOnClickHandler(
+        minorEmotion: minorEmotionType,
+        majorEmotion: majorEmotionType,
+        dayMoment: dayMomentType | undefined,
+        day: string,
+    ) {
+        return () => {
+            if (!dayMoment) {
+                return;
+            }
+            createMoodApiCall.perform({
+                minor: minorEmotion,
+                major: majorEmotion,
+                dayMoment,
+                day,
+            } as moodDtoType);
+        };
+    }
+
+    function computeDayMoments() {
+        return {
+            'waking-up': {
                 label: 'Réveil',
-                computer: (time) => time >= '04:00' && time < '10:00',
+                computer: (time: string) => time >= '04:00' && time < '10:00',
             },
-            {
-                key: 'morning',
+            morning: {
                 label: 'Matin',
-                computer: (time) => time >= '10:00' && time < '13:00',
+                computer: (time: string) => time >= '10:00' && time < '13:00',
             },
-            {
-                key: 'afternoon',
+            afternoon: {
                 label: 'Après-midi',
-                computer: (time) => time >= '13:00' && time < '18:00',
+                computer: (time: string) => time >= '13:00' && time < '18:00',
             },
-            {
-                key: 'evening',
+            evening: {
                 label: 'Soirée',
-                computer: (time) => time >= '18:00' && time < '24:00',
+                computer: (time: string) => time >= '18:00' && time < '24:00',
             },
-        ];
+        };
     }
 }
 
