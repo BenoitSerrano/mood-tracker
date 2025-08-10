@@ -1,8 +1,13 @@
-import { styled, Typography } from '@mui/material';
+import { Skeleton, styled, Typography } from '@mui/material';
 import { dayMomentKeys, emotionMapping, moodApiType, parsedDateType } from '../../../types';
 import { convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
+import CloudOffIcon from '@mui/icons-material/CloudOff';
 
-function DayMoods(props: { selectedDate: parsedDateType; moods: moodApiType[] | undefined }) {
+function DayMoods(props: {
+    selectedDate: parsedDateType;
+    moods: moodApiType[] | undefined;
+    isLoading: boolean;
+}) {
     return (
         <Container>
             {dayMomentKeys.map((dayMomentKey) => {
@@ -17,18 +22,36 @@ function DayMoods(props: { selectedDate: parsedDateType; moods: moodApiType[] | 
                             <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
                         </RowLabelContainer>
                         <RowMoodContainer>
-                            {mood && (
-                                <RowMood color={emotionMapping[mood.major][mood.minor].color}>
-                                    <MinorMood>
-                                        {emotionMapping[mood.major][mood.minor].label}
-                                    </MinorMood>
-                                </RowMood>
-                            )}
+                            <DayMomentMood mood={mood} isLoading={props.isLoading} />
                         </RowMoodContainer>
                     </Row>
                 );
             })}
         </Container>
+    );
+}
+
+function DayMomentMood(props: { mood: moodApiType | undefined; isLoading: boolean }) {
+    const { mood, isLoading } = props;
+    if (isLoading) {
+        return <StyledSkeleton />;
+    }
+    if (!mood) {
+        return <MoodPlaceholder />;
+    }
+
+    return (
+        <RowMood color={emotionMapping[mood.major][mood.minor].color}>
+            <MinorMood>{emotionMapping[mood.major][mood.minor].label}</MinorMood>
+        </RowMood>
+    );
+}
+
+function MoodPlaceholder() {
+    return (
+        <RowMood>
+            <CloudOffIcon />
+        </RowMood>
     );
 }
 
@@ -73,7 +96,19 @@ const RowMoodContainer = styled('div')(({ theme }) => ({
 }));
 
 const RowMood = styled('div')(({ theme, color }) => ({
-    background: color,
+    background: color ? color : theme.palette.grey[300],
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: `calc(${theme.shape.borderRadius}px - (${theme.spacing(1)} / 2))`,
+    width: '100%',
+}));
+
+const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     flex: 1,

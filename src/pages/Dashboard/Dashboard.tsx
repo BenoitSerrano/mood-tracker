@@ -17,7 +17,11 @@ function Dashboard() {
     return (
         <Container>
             <Header selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-            <DayMoods moods={moodsApiQuery.data} selectedDate={selectedDate} />
+            <DayMoods
+                moods={moodsApiQuery.data}
+                selectedDate={selectedDate}
+                isLoading={moodsApiQuery.isLoading}
+            />
         </Container>
     );
 }
