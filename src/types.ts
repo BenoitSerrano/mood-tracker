@@ -1,15 +1,16 @@
 type moodDtoType = {
-    minor: minorEmotionType;
+    minor: number;
     major: majorEmotionType;
     dayMoment: string;
     day: string;
 };
 
-type dayMomentType = 'waking-up' | 'morning' | 'afternoon' | 'evening';
+const dayMoments = ['waking-up', 'morning', 'afternoon', 'evening'] as const;
+type dayMomentType = (typeof dayMoments)[number];
 
 type moodApiType = {
     id: string;
-    minor: minorEmotionType;
+    minor: number;
     major: majorEmotionType;
     day_moment: dayMomentType;
     day: string;
@@ -56,5 +57,5 @@ const emotionMapping: Record<majorEmotionType, minorEmotionMappingType[]> = {
     ],
 };
 
-export { emotionMapping };
+export { emotionMapping, dayMoments };
 export type { moodDtoType, majorEmotionType, minorEmotionType, dayMomentType, moodApiType };

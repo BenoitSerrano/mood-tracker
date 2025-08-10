@@ -12,7 +12,6 @@ import {
     dayMomentType,
     emotionMapping,
     majorEmotionType,
-    minorEmotionType,
     moodApiType,
     moodDtoType,
 } from '../types';
@@ -20,6 +19,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { useApiCall } from '../lib/api/useApiCall';
 import { useAlert } from '../lib/alert';
+import { convertDateToString } from '../lib/date';
 
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '100px';
@@ -97,10 +97,10 @@ function Home() {
             </Header>
             <MajorEmotionsContainer>
                 <MajorEmotionContainer key="happiness">
-                    {emotionMapping.happiness.map((minorEmotion) => (
+                    {emotionMapping.happiness.map((minorEmotion, index) => (
                         <MinorEmotionContainer
                             onClick={buildOnClickHandler(
-                                minorEmotion.key,
+                                index,
                                 'happiness',
                                 selectedDayMoment,
                                 dates[selectedDate].date,
@@ -109,8 +109,7 @@ function Home() {
                             color={minorEmotion.color}
                             disabled={
                                 !selectedDayMoment ||
-                                (currentMood?.major === 'happiness' &&
-                                    currentMood.minor === minorEmotion.key)
+                                (currentMood?.major === 'happiness' && currentMood.minor === index)
                             }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
@@ -118,10 +117,10 @@ function Home() {
                     ))}
                 </MajorEmotionContainer>
                 <MajorEmotionContainer key="sadness">
-                    {emotionMapping.sadness.map((minorEmotion) => (
+                    {emotionMapping.sadness.map((minorEmotion, index) => (
                         <MinorEmotionContainer
                             onClick={buildOnClickHandler(
-                                minorEmotion.key,
+                                index,
                                 'sadness',
                                 selectedDayMoment,
                                 dates[selectedDate].date,
@@ -130,8 +129,7 @@ function Home() {
                             color={minorEmotion.color}
                             disabled={
                                 !selectedDayMoment ||
-                                (currentMood?.major === 'sadness' &&
-                                    currentMood.minor === minorEmotion.key)
+                                (currentMood?.major === 'sadness' && currentMood.minor === index)
                             }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
@@ -139,10 +137,10 @@ function Home() {
                     ))}
                 </MajorEmotionContainer>
                 <MajorEmotionContainer key="tension">
-                    {emotionMapping.tension.map((minorEmotion) => (
+                    {emotionMapping.tension.map((minorEmotion, index) => (
                         <MinorEmotionContainer
                             onClick={buildOnClickHandler(
-                                minorEmotion.key,
+                                index,
                                 'tension',
                                 selectedDayMoment,
                                 dates[selectedDate].date,
@@ -151,8 +149,7 @@ function Home() {
                             color={minorEmotion.color}
                             disabled={
                                 !selectedDayMoment ||
-                                (currentMood?.major === 'tension' &&
-                                    currentMood.minor === minorEmotion.key)
+                                (currentMood?.major === 'tension' && currentMood.minor === index)
                             }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
@@ -164,7 +161,7 @@ function Home() {
     );
 
     function buildOnClickHandler(
-        minorEmotion: minorEmotionType,
+        minorEmotion: number,
         majorEmotion: majorEmotionType,
         dayMoment: dayMomentType | undefined,
         day: string,
@@ -250,12 +247,6 @@ function convertSelectedDateToString(selectedDate: selectedDateType): string {
             yesterday.setDate(today.getDate() - 1);
             return convertDateToString(yesterday);
     }
-}
-function convertDateToString(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
 }
 
 const Header = styled('div')(({ theme }) => ({
