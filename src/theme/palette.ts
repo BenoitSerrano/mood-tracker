@@ -1,4 +1,6 @@
-const defaultPalette = {
+import { PaletteOptions } from '@mui/material';
+
+const defaultPalette: PaletteOptions = {
     primary: {
         light: '#228B22',
         dark: '#014421',
@@ -9,8 +11,8 @@ const defaultPalette = {
     },
     warning: { main: '#e87a00', light: '#f5b44d' },
     common: { black: '#0D2F30', white: '#F6FEFE' },
-    background: { default: '#CADDDB' },
-    divider: '#D0E0E3',
+    background: { default: '#f8fafd', paper: '#FFFFFF' },
+    divider: '#DDE3FA',
 };
 
 const palette = {

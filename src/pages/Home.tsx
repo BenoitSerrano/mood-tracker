@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import {
+    dayMomentKeys,
     dayMomentType,
     emotionMapping,
     majorEmotionType,
@@ -19,7 +20,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { useApiCall } from '../lib/api/useApiCall';
 import { useAlert } from '../lib/alert';
-import { convertDateToString } from '../lib/date';
+import { convertDateToString, DAY_MOMENTS } from '../lib/date';
 
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '100px';
@@ -29,11 +30,11 @@ function Home() {
     const { displayAlert } = useAlert();
 
     const dates = computeDates();
-    const dayMoments = computeDayMoments();
-    const currentDayMoment = Object.entries(dayMoments).find(([_key, dayMoment]) => {
+
+    const currentDayMoment = dayMomentKeys.find((dayMomentKey) => {
         const currentTime = new Date().toTimeString().slice(0, 5);
-        return dayMoment.computer(currentTime);
-    })?.[0] as dayMomentType | undefined;
+        return DAY_MOMENTS[dayMomentKey].computer(currentTime);
+    }) as dayMomentType | undefined;
     useQuery({ queryFn: api.ping, queryKey: ['ping'], refetchOnWindowFocus: true });
     const moodsApiQuery = useQuery({
         queryFn: api.getMoods,
@@ -81,16 +82,16 @@ function Home() {
                     ))}
                 </DateSelect>
                 <RadioButtonsContainer>
-                    {Object.entries(dayMoments).map(([key, dayMoment]) => (
+                    {dayMomentKeys.map((dayMomentKey) => (
                         <FormControlLabel
-                            key={key}
+                            key={dayMomentKey}
                             control={
                                 <Radio
-                                    checked={selectedDayMoment === key}
-                                    onChange={() => setSelectedDayMoment(key as dayMomentType)}
+                                    checked={selectedDayMoment === dayMomentKey}
+                                    onChange={() => setSelectedDayMoment(dayMomentKey)}
                                 />
                             }
-                            label={dayMoment.label}
+                            label={DAY_MOMENTS[dayMomentKey].label}
                         />
                     ))}
                 </RadioButtonsContainer>
@@ -184,27 +185,6 @@ function Home() {
         setSelectedDate(selectedDate);
         setSelectedDayMoment(undefined);
     }
-}
-
-function computeDayMoments() {
-    return {
-        'waking-up': {
-            label: 'Réveil',
-            computer: (time: string) => time >= '04:00' && time < '10:00',
-        },
-        morning: {
-            label: 'Matin',
-            computer: (time: string) => time >= '10:00' && time < '13:00',
-        },
-        afternoon: {
-            label: 'Après-midi',
-            computer: (time: string) => time >= '13:00' && time < '18:00',
-        },
-        evening: {
-            label: 'Soirée',
-            computer: (time: string) => time >= '18:00' && time < '24:00',
-        },
-    };
 }
 
 function computeDates() {
@@ -311,6 +291,7 @@ const MinorEmotionContainer = styled('button')<{ color: string; disabled: boolea
 );
 const Container = styled('div')(({ theme }) => ({
     height: '100vh',
+    backgroundColor: theme.palette.background.default,
     position: 'relative',
 }));
 const MinorEmotionLabel = styled(Typography)(({ theme }) => ({

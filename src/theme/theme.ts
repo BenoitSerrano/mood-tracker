@@ -4,7 +4,7 @@ import { palette } from './palette';
 const theme = createTheme({
     palette,
     shape: {
-        borderRadius: 8,
+        borderRadius: 12,
     },
     spacing: (value: number) => value * 4,
     components: {
