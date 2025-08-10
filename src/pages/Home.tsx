@@ -42,7 +42,6 @@ function Home() {
     });
 
     const apiMoods = moodsApiQuery.data;
-    const currentMood = apiMoods ? computeCurrentMood(apiMoods) : undefined;
 
     const queryClient = useQueryClient();
     const createMoodApiCall = useApiCall({
@@ -56,8 +55,11 @@ function Home() {
         },
     });
     const [selectedDayMoment, setSelectedDayMoment] = useState(currentDayMoment);
-
     const [selectedDate, setSelectedDate] = useState<selectedDateType>('today');
+    const currentMood = apiMoods
+        ? computeCurrentMood(apiMoods, { selectedDate, selectedDayMoment })
+        : undefined;
+
     const isLoading = moodsApiQuery.isPending || createMoodApiCall.isLoading;
     return (
         <Container>
@@ -70,7 +72,7 @@ function Home() {
                 <DateSelect
                     variant="standard"
                     value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value as selectedDateType)}
+                    onChange={(e) => onChangeSelectedDate(e.target.value as selectedDateType)}
                 >
                     {Object.entries(dates).map(([key, date]) => (
                         <MenuItem key={key} value={key}>
@@ -106,8 +108,9 @@ function Home() {
                             key={minorEmotion.key}
                             color={minorEmotion.color}
                             disabled={
-                                currentMood?.major === 'happiness' &&
-                                currentMood.minor === minorEmotion.key
+                                !selectedDayMoment ||
+                                (currentMood?.major === 'happiness' &&
+                                    currentMood.minor === minorEmotion.key)
                             }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
@@ -126,8 +129,9 @@ function Home() {
                             key={minorEmotion.key}
                             color={minorEmotion.color}
                             disabled={
-                                currentMood?.major === 'sadness' &&
-                                currentMood.minor === minorEmotion.key
+                                !selectedDayMoment ||
+                                (currentMood?.major === 'sadness' &&
+                                    currentMood.minor === minorEmotion.key)
                             }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
@@ -146,8 +150,9 @@ function Home() {
                             key={minorEmotion.key}
                             color={minorEmotion.color}
                             disabled={
-                                currentMood?.major === 'tension' &&
-                                currentMood.minor === minorEmotion.key
+                                !selectedDayMoment ||
+                                (currentMood?.major === 'tension' &&
+                                    currentMood.minor === minorEmotion.key)
                             }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
@@ -157,21 +162,6 @@ function Home() {
             </MajorEmotionsContainer>
         </Container>
     );
-
-    function computeDates() {
-        const todayDate = new Date();
-        const yesterdayDate = new Date(todayDate);
-        yesterdayDate.setDate(todayDate.getDate() - 1);
-        const today = {
-            date: convertDateToString(todayDate),
-            label: "Aujourd'hui",
-        };
-        const yesterday = {
-            date: convertDateToString(yesterdayDate),
-            label: 'Hier',
-        };
-        return { today, yesterday };
-    }
 
     function buildOnClickHandler(
         minorEmotion: minorEmotionType,
@@ -193,33 +183,74 @@ function Home() {
         };
     }
 
-    function computeDayMoments() {
-        return {
-            'waking-up': {
-                label: 'Réveil',
-                computer: (time: string) => time >= '04:00' && time < '10:00',
-            },
-            morning: {
-                label: 'Matin',
-                computer: (time: string) => time >= '10:00' && time < '13:00',
-            },
-            afternoon: {
-                label: 'Après-midi',
-                computer: (time: string) => time >= '13:00' && time < '18:00',
-            },
-            evening: {
-                label: 'Soirée',
-                computer: (time: string) => time >= '18:00' && time < '24:00',
-            },
-        };
+    function onChangeSelectedDate(selectedDate: selectedDateType) {
+        setSelectedDate(selectedDate);
+        setSelectedDayMoment(undefined);
     }
 }
 
-function computeCurrentMood(moods: moodApiType[]) {
-    const today = convertDateToString(new Date());
-    return moods.find((mood) => mood.day === today);
+function computeDayMoments() {
+    return {
+        'waking-up': {
+            label: 'Réveil',
+            computer: (time: string) => time >= '04:00' && time < '10:00',
+        },
+        morning: {
+            label: 'Matin',
+            computer: (time: string) => time >= '10:00' && time < '13:00',
+        },
+        afternoon: {
+            label: 'Après-midi',
+            computer: (time: string) => time >= '13:00' && time < '18:00',
+        },
+        evening: {
+            label: 'Soirée',
+            computer: (time: string) => time >= '18:00' && time < '24:00',
+        },
+    };
 }
 
+function computeDates() {
+    const todayDate = new Date();
+    const yesterdayDate = new Date(todayDate);
+    yesterdayDate.setDate(todayDate.getDate() - 1);
+    const today = {
+        date: convertDateToString(todayDate),
+        label: "Aujourd'hui",
+    };
+    const yesterday = {
+        date: convertDateToString(yesterdayDate),
+        label: 'Hier',
+    };
+    return { today, yesterday };
+}
+
+function computeCurrentMood(
+    moods: moodApiType[],
+    currentSelection: {
+        selectedDate: selectedDateType;
+        selectedDayMoment: dayMomentType | undefined;
+    },
+) {
+    const selectedDateString = convertSelectedDateToString(currentSelection.selectedDate);
+    return moods.find(
+        (mood) =>
+            mood.day_moment === currentSelection.selectedDayMoment &&
+            mood.day === selectedDateString,
+    );
+}
+
+function convertSelectedDateToString(selectedDate: selectedDateType): string {
+    const today = new Date();
+    switch (selectedDate) {
+        case 'today':
+            return convertDateToString(today);
+        case 'yesterday':
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            return convertDateToString(yesterday);
+    }
+}
 function convertDateToString(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
