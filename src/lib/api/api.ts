@@ -1,8 +1,9 @@
-import { moodDtoType } from '../../types';
+import { moodApiType, moodDtoType } from '../../types';
 import { performApiCall } from './utils';
 
 const api = {
     createMood,
+    getMoods,
     ping,
 };
 
@@ -16,4 +17,9 @@ async function createMood(params: moodDtoType) {
         data: params,
     });
 }
+
+async function getMoods() {
+    return performApiCall<moodApiType[]>('moods', 'GET');
+}
+
 export { api };

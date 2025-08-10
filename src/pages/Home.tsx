@@ -1,12 +1,18 @@
 import { FormControlLabel, MenuItem, Radio, Select, styled, Typography } from '@mui/material';
 import { useState } from 'react';
-import { emotionMapping, majorEmotionType, minorEmotionType, moodDtoType } from '../types';
-import { useQuery } from '@tanstack/react-query';
+import {
+    dayMomentType,
+    emotionMapping,
+    majorEmotionType,
+    minorEmotionType,
+    moodApiType,
+    moodDtoType,
+} from '../types';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { useApiCall } from '../lib/api/useApiCall';
 import { useAlert } from '../lib/alert';
 
-type dayMomentType = 'waking-up' | 'morning' | 'afternoon' | 'evening';
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '100px';
 
@@ -20,10 +26,20 @@ function Home() {
         return dayMoment.computer(currentTime);
     })?.[0] as dayMomentType | undefined;
     useQuery({ queryFn: api.ping, queryKey: ['ping'], refetchOnWindowFocus: true });
+    const moodsApiQuery = useQuery({
+        queryFn: api.getMoods,
+        queryKey: ['moods'],
+        refetchOnWindowFocus: true,
+    });
 
+    const apiMoods = moodsApiQuery.data;
+    const currentMood = apiMoods ? computeCurrentMood(apiMoods) : undefined;
+
+    const queryClient = useQueryClient();
     const createMoodApiCall = useApiCall({
         apiCall: api.createMood,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['moods'] });
             displayAlert({
                 variant: 'success',
                 text: 'Mood saved successfully!',
@@ -69,10 +85,14 @@ function Home() {
                                 minorEmotion.key,
                                 'happiness',
                                 selectedDayMoment,
-                                selectedDate,
+                                dates[selectedDate].date,
                             )}
                             key={minorEmotion.key}
                             color={minorEmotion.color}
+                            disabled={
+                                currentMood?.major === 'happiness' &&
+                                currentMood.minor === minorEmotion.key
+                            }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
                         </MinorEmotionContainer>
@@ -85,10 +105,14 @@ function Home() {
                                 minorEmotion.key,
                                 'sadness',
                                 selectedDayMoment,
-                                selectedDate,
+                                dates[selectedDate].date,
                             )}
                             key={minorEmotion.key}
                             color={minorEmotion.color}
+                            disabled={
+                                currentMood?.major === 'sadness' &&
+                                currentMood.minor === minorEmotion.key
+                            }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
                         </MinorEmotionContainer>
@@ -101,10 +125,14 @@ function Home() {
                                 minorEmotion.key,
                                 'tension',
                                 selectedDayMoment,
-                                selectedDate,
+                                dates[selectedDate].date,
                             )}
                             key={minorEmotion.key}
                             color={minorEmotion.color}
+                            disabled={
+                                currentMood?.major === 'tension' &&
+                                currentMood.minor === minorEmotion.key
+                            }
                         >
                             <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
                         </MinorEmotionContainer>
@@ -139,6 +167,7 @@ function Home() {
             if (!dayMoment) {
                 return;
             }
+
             createMoodApiCall.perform({
                 minor: minorEmotion,
                 major: majorEmotion,
@@ -168,6 +197,11 @@ function Home() {
             },
         };
     }
+}
+
+function computeCurrentMood(moods: moodApiType[]) {
+    const today = convertDateToString(new Date());
+    return moods.find((mood) => mood.day === today);
 }
 
 function convertDateToString(date: Date): string {
@@ -214,16 +248,19 @@ const MajorEmotionContainer = styled('div')(({ theme }) => ({
     flex: 1,
     flexDirection: 'row',
 }));
-const MinorEmotionContainer = styled('button')<{ color: string }>(({ theme, color }) => ({
-    backgroundColor: color,
-    borderRadius: theme.shape.borderRadius,
-    borderColor: color,
-    flex: 1,
-    justifyContent: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    cursor: 'pointer',
-}));
+const MinorEmotionContainer = styled('button')<{ color: string; disabled: boolean }>(
+    ({ theme, color, disabled }) => ({
+        backgroundColor: color,
+        borderRadius: theme.shape.borderRadius,
+        borderColor: color,
+        opacity: disabled ? 0.3 : 1,
+        flex: 1,
+        justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+    }),
+);
 const Container = styled('div')(({ theme }) => ({
     height: '100vh',
 }));
