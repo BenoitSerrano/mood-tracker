@@ -8,6 +8,12 @@ type moodDtoType = {
 const dayMomentKeys = ['waking-up', 'morning', 'afternoon', 'evening'] as const;
 type dayMomentType = (typeof dayMomentKeys)[number];
 
+type parsedDateType = {
+    year: number;
+    month: number;
+    dayOfMonth: number;
+};
+
 type moodApiType = {
     id: string;
     minor: number;
@@ -58,4 +64,11 @@ const emotionMapping: Record<majorEmotionType, minorEmotionMappingType[]> = {
 };
 
 export { emotionMapping, dayMomentKeys };
-export type { moodDtoType, majorEmotionType, minorEmotionType, dayMomentType, moodApiType };
+export type {
+    moodDtoType,
+    majorEmotionType,
+    minorEmotionType,
+    dayMomentType,
+    moodApiType,
+    parsedDateType,
+};

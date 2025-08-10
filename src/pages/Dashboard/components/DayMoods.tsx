@@ -1,12 +1,16 @@
 import { styled, Typography } from '@mui/material';
-import { dayMomentKeys, emotionMapping, moodApiType } from '../../../types';
-import { DAY_MOMENTS } from '../../../lib/date';
+import { dayMomentKeys, emotionMapping, moodApiType, parsedDateType } from '../../../types';
+import { convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
 
-function DayMoods(props: { selectedDate: string; moods: moodApiType[] | undefined }) {
+function DayMoods(props: { selectedDate: parsedDateType; moods: moodApiType[] | undefined }) {
     return (
         <Container>
             {dayMomentKeys.map((dayMomentKey) => {
-                const mood = props.moods?.find((mood) => mood.day_moment === dayMomentKey);
+                const mood = props.moods?.find(
+                    (mood) =>
+                        mood.day_moment === dayMomentKey &&
+                        mood.day === convertParsedDateToDateString(props.selectedDate),
+                );
                 return (
                     <Row key={dayMomentKey}>
                         <RowLabelContainer>
@@ -51,7 +55,6 @@ const Row = styled('div')(({ theme }) => ({
 
 const RowLabelContainer = styled('div')(({ theme }) => ({
     display: 'flex',
-
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
