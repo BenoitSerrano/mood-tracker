@@ -1,4 +1,12 @@
-import { FormControlLabel, MenuItem, Radio, Select, styled, Typography } from '@mui/material';
+import {
+    CircularProgress,
+    FormControlLabel,
+    MenuItem,
+    Radio,
+    Select,
+    styled,
+    Typography,
+} from '@mui/material';
 import { useState } from 'react';
 import {
     dayMomentType,
@@ -15,6 +23,7 @@ import { useAlert } from '../lib/alert';
 
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '100px';
+const LOADER_SIZE = '20px';
 
 function Home() {
     const { displayAlert } = useAlert();
@@ -49,10 +58,17 @@ function Home() {
     const [selectedDayMoment, setSelectedDayMoment] = useState(currentDayMoment);
 
     const [selectedDate, setSelectedDate] = useState<selectedDateType>('today');
+    const isLoading = moodsApiQuery.isPending || createMoodApiCall.isLoading;
     return (
         <Container>
-            <TimeSelectionContainer>
+            <Header>
+                {isLoading && (
+                    <LoaderContainer>
+                        <CircularProgress />
+                    </LoaderContainer>
+                )}
                 <DateSelect
+                    variant="standard"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value as selectedDateType)}
                 >
@@ -76,7 +92,7 @@ function Home() {
                         />
                     ))}
                 </RadioButtonsContainer>
-            </TimeSelectionContainer>
+            </Header>
             <MajorEmotionsContainer>
                 <MajorEmotionContainer key="happiness">
                     {emotionMapping.happiness.map((minorEmotion) => (
@@ -211,13 +227,23 @@ function convertDateToString(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
-const TimeSelectionContainer = styled('div')(({ theme }) => ({
+const Header = styled('div')(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: TIME_SELECTION_HEIGHT,
     gap: theme.spacing(2),
+}));
+const LoaderContainer = styled('div')(({ theme }) => ({
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
+    position: 'absolute',
+    height: LOADER_SIZE,
+    width: LOADER_SIZE,
+    top: 0,
+    left: 0,
 }));
 const DateSelect = styled(Select)(({ theme }) => ({
     flex: 1,
@@ -263,6 +289,7 @@ const MinorEmotionContainer = styled('button')<{ color: string; disabled: boolea
 );
 const Container = styled('div')(({ theme }) => ({
     height: '100vh',
+    position: 'relative',
 }));
 const MinorEmotionLabel = styled(Typography)(({ theme }) => ({
     color: theme.palette.common.black,
