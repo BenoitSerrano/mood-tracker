@@ -1,12 +1,14 @@
 import { styled } from '@mui/material';
 import { useState } from 'react';
-import { convertDateToParsedDate } from '../../lib/date';
+import { convertDateToParsedDate, getSurroundingWeek } from '../../lib/date';
 import { DayMoods } from './components/DayMoods';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
-import { Header, HEADER_HEIGHT } from './components/Header';
+import { Header } from './components/Header';
 import { WeekMoods } from './components/WeekMoods';
 import { timeModeType } from './constants';
+import { DayDateChanger } from './components/DayDateChanger';
+import { WeekDateChanger } from './components/WeekDateChanger';
 
 function Dashboard() {
     const todayParsedDate = convertDateToParsedDate(new Date());
@@ -19,36 +21,42 @@ function Dashboard() {
     });
     return (
         <Container>
-            <ContentContainer>
-                <Header
-                    selectedDate={selectedDate}
-                    setSelectedDate={setSelectedDate}
-                    timeMode={timeMode}
-                    setTimeMode={setTimeMode}
-                />
-                {renderMoods()}
-            </ContentContainer>
+            <ContentContainer>{renderMoods()}</ContentContainer>
         </Container>
     );
 
     function renderMoods() {
         switch (timeMode) {
             case 'day':
-                return (
+                return [
+                    <Header setTimeMode={setTimeMode} timeMode={timeMode}>
+                        <DayDateChanger
+                            selectedDate={selectedDate}
+                            setSelectedDate={setSelectedDate}
+                        />
+                    </Header>,
                     <DayMoods
                         moods={moodsApiQuery.data}
                         selectedDate={selectedDate}
                         isLoading={moodsApiQuery.isLoading}
-                    />
-                );
+                    />,
+                ];
             case 'week':
-                return (
+                const surroundingWeek = getSurroundingWeek(selectedDate);
+
+                return [
+                    <Header setTimeMode={setTimeMode} timeMode={timeMode}>
+                        <WeekDateChanger
+                            selectedDate={selectedDate}
+                            setSelectedDate={setSelectedDate}
+                        />
+                    </Header>,
                     <WeekMoods
                         moods={moodsApiQuery.data}
-                        selectedDate={selectedDate}
+                        surroundingWeek={surroundingWeek}
                         isLoading={moodsApiQuery.isLoading}
-                    />
-                );
+                    />,
+                ];
         }
     }
 }

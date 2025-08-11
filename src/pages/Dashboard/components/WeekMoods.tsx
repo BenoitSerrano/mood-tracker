@@ -1,26 +1,28 @@
 import { styled, Typography } from '@mui/material';
 import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
-import { convertParsedDateToDateString, DAY_MOMENTS, getSurroundingWeek } from '../../../lib/date';
+import { convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
 
 const DAYS_OF_THE_WEEK = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
 function WeekMoods(props: {
-    selectedDate: parsedDateType;
+    surroundingWeek: parsedDateType[];
     moods: moodApiType[] | undefined;
     isLoading: boolean;
 }) {
-    const surroundingWeek = getSurroundingWeek(props.selectedDate);
     return (
         <Container>
             <Table>
                 <HeadRow>
                     <Cell />
-                    {DAYS_OF_THE_WEEK.map((day) => (
-                        <Cell key={day}>
-                            <Typography>{day}</Typography>
-                        </Cell>
+                    {DAYS_OF_THE_WEEK.map((day, index) => (
+                        <DayOfWeekCell key={day}>
+                            <Typography variant="h2">{day}. </Typography>
+                            <Typography variant="h2">
+                                {props.surroundingWeek[index].dayOfMonth}
+                            </Typography>
+                        </DayOfWeekCell>
                     ))}
                 </HeadRow>
                 {dayMomentKeys.map((dayMomentKey) => (
@@ -28,7 +30,7 @@ function WeekMoods(props: {
                         <DayMomentCell>
                             <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
                         </DayMomentCell>
-                        {surroundingWeek.map((date) => {
+                        {props.surroundingWeek.map((date) => {
                             const mood = props.moods?.find(
                                 (mood) =>
                                     mood.day_moment === dayMomentKey &&
@@ -75,6 +77,21 @@ const HeadRow = styled('div')(({ theme }) => ({
 const Cell = styled('div')(({ theme }) => ({
     flex: 1,
     textAlign: 'center',
+    padding: theme.spacing(1),
+}));
+
+const DayOfWeekCell = styled('div')(({ theme }) => ({
+    flex: 1,
+    display: 'flex',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+    },
+    [theme.breakpoints.up('sm')]: {
+        flexDirection: 'row',
+    },
     padding: theme.spacing(1),
 }));
 const DayMomentCell = styled('div')(({ theme }) => ({

@@ -1,37 +1,17 @@
-import { IconButton, styled, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { convertParsedDateToReadableDate, modifyDateByDays } from '../../../lib/date';
-import { parsedDateType } from '../../../types';
+import { styled, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { TIME_MODES, timeModeMapping, timeModeType } from '../constants';
+import { ReactNode } from 'react';
 
 const HEADER_HEIGHT = '70px';
 
 function Header(props: {
-    selectedDate: parsedDateType;
-    setSelectedDate: (selectedDate: parsedDateType) => void;
     timeMode: timeModeType;
     setTimeMode: (timeMode: timeModeType) => void;
+    children: ReactNode;
 }) {
-    const readableDate = convertParsedDateToReadableDate(props.selectedDate);
-    const previousDate = modifyDateByDays(props.selectedDate, -1);
-    const nextDate = modifyDateByDays(props.selectedDate, 1);
     return (
         <Container>
-            <LeftContainer>
-                <NavigationIconsContainer>
-                    <IconButton onClick={() => props.setSelectedDate(previousDate)}>
-                        <ArrowBackIosNewIcon />
-                    </IconButton>
-                    <IconButton onClick={() => props.setSelectedDate(nextDate)}>
-                        <ArrowForwardIosIcon />
-                    </IconButton>
-                </NavigationIconsContainer>
-                <DateContainer>
-                    <Typography variant="h1">{readableDate}</Typography>
-                </DateContainer>
-            </LeftContainer>
-
+            <LeftContainer>{props.children}</LeftContainer>
             <RightContainer>
                 <ToggleButtonGroup>
                     {TIME_MODES.map((timeMode) => (
@@ -58,12 +38,6 @@ const Container = styled('div')(() => ({
     height: HEADER_HEIGHT,
 }));
 
-const NavigationIconsContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-}));
-
 const RightContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -72,7 +46,5 @@ const LeftContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
 }));
-
-const DateContainer = styled('div')(({ theme }) => ({}));
 
 export { Header, HEADER_HEIGHT };
