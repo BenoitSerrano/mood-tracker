@@ -1,7 +1,7 @@
 import { IconButton, styled, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { addDay, convertParsedDateToReadableDate, substractDay } from '../../../lib/date';
+import { convertParsedDateToReadableDate, modifyDateByDays } from '../../../lib/date';
 import { parsedDateType } from '../../../types';
 import { TIME_MODES, timeModeMapping, timeModeType } from '../constants';
 
@@ -14,8 +14,8 @@ function Header(props: {
     setTimeMode: (timeMode: timeModeType) => void;
 }) {
     const readableDate = convertParsedDateToReadableDate(props.selectedDate);
-    const previousDate = substractDay(props.selectedDate);
-    const nextDate = addDay(props.selectedDate);
+    const previousDate = modifyDateByDays(props.selectedDate, -1);
+    const nextDate = modifyDateByDays(props.selectedDate, 1);
     return (
         <Container>
             <LeftContainer>
@@ -75,4 +75,4 @@ const LeftContainer = styled('div')(({ theme }) => ({
 
 const DateContainer = styled('div')(({ theme }) => ({}));
 
-export { Header };
+export { Header, HEADER_HEIGHT };

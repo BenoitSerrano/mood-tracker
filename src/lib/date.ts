@@ -7,6 +7,24 @@ function convertDateToString(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
+function getSurroundingWeek(parsedDate: parsedDateType): parsedDateType[] {
+    const date = new Date(parsedDate.year, parsedDate.month - 1, parsedDate.dayOfMonth);
+    let dayOfWeek = date.getDay();
+    if (dayOfWeek === 0) {
+        dayOfWeek = 7; // Adjust Sunday to be the last day of the week
+    }
+
+    const week: parsedDateType[] = [];
+    for (let i = 1; i < dayOfWeek; i++) {
+        week.push(modifyDateByDays(parsedDate, i - dayOfWeek));
+    }
+    week.push(parsedDate);
+    for (let i = dayOfWeek + 1; i < 8; i++) {
+        week.push(modifyDateByDays(parsedDate, i - dayOfWeek));
+    }
+    return week;
+}
+
 function convertParsedDateToDateString(parsedDate: parsedDateType): string {
     return `${parsedDate.year}-${String(parsedDate.month).padStart(2, '0')}-${String(
         parsedDate.dayOfMonth,
@@ -21,15 +39,9 @@ function convertDateToParsedDate(date: Date): parsedDateType {
     };
 }
 
-function addDay(parsedDate: parsedDateType): parsedDateType {
+function modifyDateByDays(parsedDate: parsedDateType, days: number): parsedDateType {
     const date = new Date(parsedDate.year, parsedDate.month - 1, parsedDate.dayOfMonth);
-    date.setDate(date.getDate() + 1);
-    return convertDateToParsedDate(date);
-}
-
-function substractDay(parsedDate: parsedDateType): parsedDateType {
-    const date = new Date(parsedDate.year, parsedDate.month - 1, parsedDate.dayOfMonth);
-    date.setDate(date.getDate() - 1);
+    date.setDate(date.getDate() + days);
     return convertDateToParsedDate(date);
 }
 
@@ -70,6 +82,6 @@ export {
     convertParsedDateToReadableDate,
     convertDateToParsedDate,
     convertParsedDateToDateString,
-    addDay,
-    substractDay,
+    modifyDateByDays,
+    getSurroundingWeek,
 };

@@ -4,7 +4,7 @@ import { convertDateToParsedDate } from '../../lib/date';
 import { DayMoods } from './components/DayMoods';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
-import { Header } from './components/Header';
+import { Header, HEADER_HEIGHT } from './components/Header';
 import { WeekMoods } from './components/WeekMoods';
 import { timeModeType } from './constants';
 
@@ -56,7 +56,6 @@ function Dashboard() {
 const Container = styled('div')(({ theme }) => ({
     display: 'flex',
     backgroundColor: theme.palette.background.default,
-
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',

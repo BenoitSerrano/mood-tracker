@@ -7,7 +7,7 @@ function TitleWrapper(props: { documentTitle: string; children: ReactNode }) {
 
 function useUpdateDocumentTitle(documentTitle: string) {
     useEffect(() => {
-        updateDocumentTitle(`${documentTitle} - Esaj`);
+        updateDocumentTitle(`${documentTitle} - Mood Tracker`);
     }, [documentTitle]);
     return { updateDocumentTitle };
 }
