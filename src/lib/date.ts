@@ -103,17 +103,13 @@ function computeDayMoments(): Record<
     { label: string; computer: (time: string) => boolean }
 > {
     return {
-        'waking-up': {
-            label: 'Réveil',
-            computer: (time: string) => time >= '04:00' && time < '10:00',
-        },
         morning: {
             label: 'Matin',
-            computer: (time: string) => time >= '10:00' && time < '13:00',
+            computer: (time: string) => time < '12:00',
         },
         afternoon: {
             label: 'Après-midi',
-            computer: (time: string) => time >= '13:00' && time < '18:00',
+            computer: (time: string) => time >= '12:00' && time < '18:00',
         },
         evening: {
             label: 'Soirée',

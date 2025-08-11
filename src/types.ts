@@ -5,7 +5,7 @@ type moodDtoType = {
     day: string;
 };
 
-const dayMomentKeys = ['waking-up', 'morning', 'afternoon', 'evening'] as const;
+const dayMomentKeys = ['morning', 'afternoon', 'evening'] as const;
 type dayMomentType = (typeof dayMomentKeys)[number];
 
 type parsedDateType = {
