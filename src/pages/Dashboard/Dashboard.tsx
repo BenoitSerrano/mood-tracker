@@ -5,9 +5,12 @@ import { DayMoods } from './components/DayMoods';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { Header } from './components/Header';
+import { WeekMoods } from './components/WeekMoods';
+import { timeModeType } from './constants';
 
 function Dashboard() {
     const todayParsedDate = convertDateToParsedDate(new Date());
+    const [timeMode, setTimeMode] = useState<timeModeType>('day');
     const [selectedDate, setSelectedDate] = useState(todayParsedDate);
     const moodsApiQuery = useQuery({
         queryFn: api.getMoods,
@@ -16,14 +19,36 @@ function Dashboard() {
     });
     return (
         <Container>
-            <Header selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-            <DayMoods
-                moods={moodsApiQuery.data}
+            <Header
                 selectedDate={selectedDate}
-                isLoading={moodsApiQuery.isLoading}
+                setSelectedDate={setSelectedDate}
+                timeMode={timeMode}
+                setTimeMode={setTimeMode}
             />
+            {renderMoods()}
         </Container>
     );
+
+    function renderMoods() {
+        switch (timeMode) {
+            case 'day':
+                return (
+                    <DayMoods
+                        moods={moodsApiQuery.data}
+                        selectedDate={selectedDate}
+                        isLoading={moodsApiQuery.isLoading}
+                    />
+                );
+            case 'week':
+                return (
+                    <WeekMoods
+                        moods={moodsApiQuery.data}
+                        selectedDate={selectedDate}
+                        isLoading={moodsApiQuery.isLoading}
+                    />
+                );
+        }
+    }
 }
 
 const Container = styled('div')(({ theme }) => ({
