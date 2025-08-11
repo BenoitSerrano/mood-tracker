@@ -7,6 +7,52 @@ function convertDateToString(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
+const MONTHS_ABREVIATIONS = [
+    'Janv.',
+    'Févr.',
+    'Mars',
+    'Avr.',
+    'Mai',
+    'Juin',
+    'Juil.',
+    'Août',
+    'Sept.',
+    'Oct.',
+    'Nov.',
+    'Déc.',
+];
+
+const MONTHS = [
+    'Janvier',
+    'Février',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juillet',
+    'Août',
+    'Septembre',
+    'Octobre',
+    'Novembre',
+    'Décembre',
+];
+
+function computeWeekTitle(week: parsedDateType[]) {
+    if (week[0].month === week[week.length - 1].month) {
+        return `${MONTHS[week[0].month - 1]} ${week[0].year}`;
+    }
+
+    if (week[0].year === week[week.length - 1].year) {
+        return `${MONTHS_ABREVIATIONS[week[0].month - 1]} - ${
+            MONTHS_ABREVIATIONS[week[week.length - 1].month - 1]
+        } ${week[0].year}`;
+    }
+
+    return `${MONTHS_ABREVIATIONS[week[0].month - 1]} ${week[0].year} - ${
+        MONTHS_ABREVIATIONS[week[week.length - 1].month - 1]
+    } ${week[week.length - 1].year}`;
+}
+
 function getSurroundingWeek(parsedDate: parsedDateType): parsedDateType[] {
     const date = new Date(parsedDate.year, parsedDate.month - 1, parsedDate.dayOfMonth);
     let dayOfWeek = date.getDay();
@@ -84,4 +130,5 @@ export {
     convertParsedDateToDateString,
     modifyDateByDays,
     getSurroundingWeek,
+    computeWeekTitle,
 };

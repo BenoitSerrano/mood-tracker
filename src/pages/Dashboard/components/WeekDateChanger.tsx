@@ -1,44 +1,15 @@
 import { IconButton, styled, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { convertParsedDateToReadableDate, modifyDateByDays } from '../../../lib/date';
+import { computeWeekTitle, modifyDateByDays } from '../../../lib/date';
 import { parsedDateType } from '../../../types';
-
-const MONTHS_ABREVIATIONS = [
-    'Janv',
-    'Févr',
-    'Mars',
-    'Avr',
-    'Mai',
-    'Juin',
-    'Juil',
-    'Août',
-    'Sept',
-    'Oct',
-    'Nov',
-    'Déc',
-];
-
-const MONTHS = [
-    'Janvier',
-    'Février',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juillet',
-    'Août',
-    'Septembre',
-    'Octobre',
-    'Novembre',
-    'Décembre',
-];
 
 function WeekDateChanger(props: {
     selectedDate: parsedDateType;
     setSelectedDate: (selectedDate: parsedDateType) => void;
+    surroundingWeek: parsedDateType[];
 }) {
-    const readableDate = convertParsedDateToReadableDate(props.selectedDate);
+    const title = computeWeekTitle(props.surroundingWeek);
     const { previousDate, nextDate } = computeNeighbouringDates(props.selectedDate);
     return (
         <Container>
@@ -51,7 +22,7 @@ function WeekDateChanger(props: {
                 </IconButton>
             </NavigationIconsContainer>
             <DateContainer>
-                <Typography variant="h1">{readableDate}</Typography>
+                <Typography variant="h1">{title}</Typography>
             </DateContainer>
         </Container>
     );

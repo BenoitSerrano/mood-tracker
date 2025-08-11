@@ -1,6 +1,35 @@
-import { convertDateToParsedDate, getSurroundingWeek } from './date';
+import { convertDateToParsedDate, getSurroundingWeek, computeWeekTitle } from './date';
 
 describe('date', () => {
+    describe('computeWeekTitle', () => {
+        it('should return the month if week contained entirely', () => {
+            const date = convertDateToParsedDate(new Date('2025-08-11'));
+            const week = getSurroundingWeek(date);
+
+            const title = computeWeekTitle(week);
+
+            expect(title).toBe('Août 2025');
+        });
+
+        it('should return the abbreviated months if week between two months', () => {
+            const date = convertDateToParsedDate(new Date('2025-08-03'));
+            const week = getSurroundingWeek(date);
+
+            const title = computeWeekTitle(week);
+
+            expect(title).toBe('Juil. - Août 2025');
+        });
+
+        it('should return the abbreviated months with years if week between two years', () => {
+            const date = convertDateToParsedDate(new Date('2024-12-30'));
+            const week = getSurroundingWeek(date);
+
+            const title = computeWeekTitle(week);
+
+            expect(title).toBe('Déc. 2024 - Janv. 2025');
+        });
+    });
+
     describe('getSurroundingWeek', () => {
         const expectedWeek = [
             { year: 2025, month: 8, dayOfMonth: 11 },

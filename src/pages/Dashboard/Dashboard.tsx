@@ -47,6 +47,7 @@ function Dashboard() {
                 return [
                     <Header setTimeMode={setTimeMode} timeMode={timeMode}>
                         <WeekDateChanger
+                            surroundingWeek={surroundingWeek}
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                         />
