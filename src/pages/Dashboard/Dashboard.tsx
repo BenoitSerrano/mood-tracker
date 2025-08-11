@@ -29,13 +29,14 @@ function Dashboard() {
         switch (timeMode) {
             case 'day':
                 return [
-                    <Header setTimeMode={setTimeMode} timeMode={timeMode}>
+                    <Header key="header-day" setTimeMode={setTimeMode} timeMode={timeMode}>
                         <DayDateChanger
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                         />
                     </Header>,
                     <DayMoods
+                        key="day-moods"
                         moods={moodsApiQuery.data}
                         selectedDate={selectedDate}
                         isLoading={moodsApiQuery.isLoading}
@@ -45,7 +46,7 @@ function Dashboard() {
                 const surroundingWeek = getSurroundingWeek(selectedDate);
 
                 return [
-                    <Header setTimeMode={setTimeMode} timeMode={timeMode}>
+                    <Header key="header-week" setTimeMode={setTimeMode} timeMode={timeMode}>
                         <WeekDateChanger
                             surroundingWeek={surroundingWeek}
                             selectedDate={selectedDate}
@@ -53,6 +54,7 @@ function Dashboard() {
                         />
                     </Header>,
                     <WeekMoods
+                        key="week-moods"
                         moods={moodsApiQuery.data}
                         surroundingWeek={surroundingWeek}
                         isLoading={moodsApiQuery.isLoading}

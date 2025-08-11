@@ -3,20 +3,39 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { convertParsedDateToReadableDate, modifyDateByDays } from '../../../lib/date';
 import { parsedDateType } from '../../../types';
+import { useEffect } from 'react';
 
 function DayDateChanger(props: {
     selectedDate: parsedDateType;
     setSelectedDate: (selectedDate: parsedDateType) => void;
 }) {
-    const readableDate = convertParsedDateToReadableDate(props.selectedDate);
-    const { previousDate, nextDate } = computeNeighbouringDates(props.selectedDate);
+    const { selectedDate, setSelectedDate } = props;
+    const readableDate = convertParsedDateToReadableDate(selectedDate);
+    const { previousDate, nextDate } = computeNeighbouringDates(selectedDate);
+    useEffect(() => {
+        window.addEventListener('keypress', handleKeyPressEvent);
+        return () => {
+            window.removeEventListener('keypress', handleKeyPressEvent);
+        };
+
+        function handleKeyPressEvent(event: KeyboardEvent) {
+            if (event.key === 'n') {
+                event.preventDefault();
+                setSelectedDate(nextDate);
+            } else if (event.key === 'p') {
+                event.preventDefault();
+                setSelectedDate(previousDate);
+            }
+        }
+    }, [setSelectedDate, nextDate, previousDate]);
+
     return (
         <Container>
             <NavigationIconsContainer>
-                <IconButton onClick={() => props.setSelectedDate(previousDate)}>
+                <IconButton onClick={() => setSelectedDate(previousDate)}>
                     <ArrowBackIosNewIcon />
                 </IconButton>
-                <IconButton onClick={() => props.setSelectedDate(nextDate)}>
+                <IconButton onClick={() => setSelectedDate(nextDate)}>
                     <ArrowForwardIosIcon />
                 </IconButton>
             </NavigationIconsContainer>

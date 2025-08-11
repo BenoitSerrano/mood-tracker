@@ -3,6 +3,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { computeWeekTitle, modifyDateByDays } from '../../../lib/date';
 import { parsedDateType } from '../../../types';
+import { useEffect } from 'react';
 
 function WeekDateChanger(props: {
     selectedDate: parsedDateType;
@@ -10,14 +11,32 @@ function WeekDateChanger(props: {
     surroundingWeek: parsedDateType[];
 }) {
     const title = computeWeekTitle(props.surroundingWeek);
-    const { previousDate, nextDate } = computeNeighbouringDates(props.selectedDate);
+    const { selectedDate, setSelectedDate } = props;
+    const { previousDate, nextDate } = computeNeighbouringDates(selectedDate);
+
+    useEffect(() => {
+        window.addEventListener('keypress', handleKeyPressEvent);
+        return () => {
+            window.removeEventListener('keypress', handleKeyPressEvent);
+        };
+
+        function handleKeyPressEvent(event: KeyboardEvent) {
+            if (event.key === 'n') {
+                event.preventDefault();
+                setSelectedDate(nextDate);
+            } else if (event.key === 'p') {
+                event.preventDefault();
+                setSelectedDate(previousDate);
+            }
+        }
+    }, [setSelectedDate, nextDate, previousDate]);
     return (
         <Container>
             <NavigationIconsContainer>
-                <IconButton onClick={() => props.setSelectedDate(previousDate)}>
+                <IconButton onClick={() => setSelectedDate(previousDate)}>
                     <ArrowBackIosNewIcon />
                 </IconButton>
-                <IconButton onClick={() => props.setSelectedDate(nextDate)}>
+                <IconButton onClick={() => setSelectedDate(nextDate)}>
                     <ArrowForwardIosIcon />
                 </IconButton>
             </NavigationIconsContainer>

@@ -1,6 +1,6 @@
 import { styled, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { TIME_MODES, timeModeMapping, timeModeType } from '../constants';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 const HEADER_HEIGHT = '70px';
 
@@ -9,6 +9,23 @@ function Header(props: {
     setTimeMode: (timeMode: timeModeType) => void;
     children: ReactNode;
 }) {
+    const { setTimeMode } = props;
+    useEffect(() => {
+        window.addEventListener('keypress', handleKeyPressEvent);
+        return () => {
+            window.removeEventListener('keypress', handleKeyPressEvent);
+        };
+
+        function handleKeyPressEvent(event: KeyboardEvent) {
+            if (event.key === 'w') {
+                event.preventDefault();
+                setTimeMode('week');
+            } else if (event.key === 'd') {
+                event.preventDefault();
+                setTimeMode('day');
+            }
+        }
+    }, [setTimeMode]);
     return (
         <Container>
             <LeftContainer>{props.children}</LeftContainer>
@@ -19,7 +36,7 @@ function Header(props: {
                             value={timeMode}
                             key={timeMode}
                             selected={props.timeMode === timeMode}
-                            onClick={() => props.setTimeMode(timeMode)}
+                            onClick={() => setTimeMode(timeMode)}
                         >
                             {timeModeMapping[timeMode]}
                         </ToggleButton>
