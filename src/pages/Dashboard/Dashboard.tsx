@@ -66,6 +66,11 @@ const Container = styled('div')(({ theme }) => ({
 
 const ContentContainer = styled('div')(({ theme }) => ({
     height: '100%',
-    width: '60vw',
+    [theme.breakpoints.down('sm')]: {
+        width: '100vw',
+    },
+    [theme.breakpoints.up('sm')]: {
+        width: '60vw',
+    },
 }));
 export { Dashboard };
