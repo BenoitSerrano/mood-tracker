@@ -61,7 +61,7 @@ const Container = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
-    width: '60vw',
+    width: '100%',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
 }));

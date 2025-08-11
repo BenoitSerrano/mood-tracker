@@ -19,13 +19,15 @@ function Dashboard() {
     });
     return (
         <Container>
-            <Header
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-                timeMode={timeMode}
-                setTimeMode={setTimeMode}
-            />
-            {renderMoods()}
+            <ContentContainer>
+                <Header
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    timeMode={timeMode}
+                    setTimeMode={setTimeMode}
+                />
+                {renderMoods()}
+            </ContentContainer>
         </Container>
     );
 
@@ -59,5 +61,11 @@ const Container = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
+    width: '100vw',
+}));
+
+const ContentContainer = styled('div')(({ theme }) => ({
+    height: '100%',
+    width: '60vw',
 }));
 export { Dashboard };

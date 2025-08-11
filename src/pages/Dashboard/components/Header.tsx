@@ -51,7 +51,7 @@ function Header(props: {
 }
 
 const Container = styled('div')(() => ({
-    width: '60%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
