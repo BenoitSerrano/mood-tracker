@@ -1,10 +1,8 @@
 import { styled, Typography } from '@mui/material';
 import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
-import { convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
+import { convertParsedDateToDateString, DAY_MOMENTS, DAYS_OF_THE_WEEK } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
-
-const DAYS_OF_THE_WEEK = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
 function WeekMoods(props: {
     surroundingWeek: parsedDateType[];

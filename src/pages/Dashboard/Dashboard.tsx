@@ -73,6 +73,7 @@ function Dashboard() {
                     </Header>,
                     <MonthMoods
                         key="month-moods"
+                        selectedDate={selectedDate}
                         moods={moodsApiQuery.data}
                         surroundingMonth={surroundingMonth}
                         isLoading={moodsApiQuery.isLoading}

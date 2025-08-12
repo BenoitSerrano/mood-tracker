@@ -37,6 +37,8 @@ const MONTHS = [
     'Décembre',
 ];
 
+const DAYS_OF_THE_WEEK = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+
 function computeWeekTitle(week: parsedDateType[]) {
     if (week[0].month === week[week.length - 1].month) {
         return `${MONTHS[week[0].month - 1]} ${week[0].year}`;
@@ -172,6 +174,7 @@ function computeDayMoments(): Record<
 
 export {
     DAY_MOMENTS,
+    DAYS_OF_THE_WEEK,
     convertDateToString,
     convertParsedDateToReadableDate,
     convertDateToParsedDate,
