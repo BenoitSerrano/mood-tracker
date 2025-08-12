@@ -23,6 +23,9 @@ function Header(props: {
             } else if (event.key === 'd') {
                 event.preventDefault();
                 setTimeMode('day');
+            } else if (event.key === 'm') {
+                event.preventDefault();
+                setTimeMode('month');
             }
         }
     }, [setTimeMode]);

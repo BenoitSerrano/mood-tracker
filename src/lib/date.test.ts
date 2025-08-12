@@ -1,4 +1,9 @@
-import { convertDateToParsedDate, getSurroundingWeek, computeWeekTitle } from './date';
+import {
+    convertDateToParsedDate,
+    getSurroundingWeek,
+    computeWeekTitle,
+    getSurroundingMonth,
+} from './date';
 
 describe('date', () => {
     describe('computeWeekTitle', () => {
@@ -65,6 +70,23 @@ describe('date', () => {
 
             expect(week).toHaveLength(7);
             expect(week).toEqual(expectedWeek);
+        });
+    });
+
+    describe('getSurroundingMonth', () => {
+        const expectedMonth = [
+            [undefined, undefined, undefined, undefined, 1, 2, 3],
+            [4, 5, 6, 7, 8, 9, 10],
+            [11, 12, 13, 14, 15, 16, 17],
+            [18, 19, 20, 21, 22, 23, 24],
+            [25, 26, 27, 28, 29, 30, 31],
+        ];
+        it('should return the whole month when given a date in the middle of the month', () => {
+            const date = convertDateToParsedDate(new Date('2025-08-12'));
+
+            const surroundingMonth = getSurroundingMonth(date);
+
+            expect(surroundingMonth).toEqual(expectedMonth);
         });
     });
 });

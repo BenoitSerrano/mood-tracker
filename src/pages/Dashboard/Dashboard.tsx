@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 import { useState } from 'react';
-import { convertDateToParsedDate, getSurroundingWeek } from '../../lib/date';
+import { convertDateToParsedDate, getSurroundingMonth, getSurroundingWeek } from '../../lib/date';
 import { DayMoods } from './components/DayMoods';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
@@ -9,6 +9,8 @@ import { WeekMoods } from './components/WeekMoods';
 import { timeModeType } from './constants';
 import { DayDateChanger } from './components/DayDateChanger';
 import { WeekDateChanger } from './components/WeekDateChanger';
+import { MonthMoods } from './components/MonthMoods';
+import { MonthDateChanger } from './components/MonthDateChanger';
 
 function Dashboard() {
     const todayParsedDate = convertDateToParsedDate(new Date());
@@ -57,6 +59,22 @@ function Dashboard() {
                         key="week-moods"
                         moods={moodsApiQuery.data}
                         surroundingWeek={surroundingWeek}
+                        isLoading={moodsApiQuery.isLoading}
+                    />,
+                ];
+            case 'month':
+                const surroundingMonth = getSurroundingMonth(selectedDate);
+                return [
+                    <Header key="header-month" setTimeMode={setTimeMode} timeMode={timeMode}>
+                        <MonthDateChanger
+                            selectedDate={selectedDate}
+                            setSelectedDate={setSelectedDate}
+                        />
+                    </Header>,
+                    <MonthMoods
+                        key="month-moods"
+                        moods={moodsApiQuery.data}
+                        surroundingMonth={surroundingMonth}
                         isLoading={moodsApiQuery.isLoading}
                     />,
                 ];

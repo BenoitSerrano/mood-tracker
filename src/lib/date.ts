@@ -53,6 +53,52 @@ function computeWeekTitle(week: parsedDateType[]) {
     } ${week[week.length - 1].year}`;
 }
 
+function computeMonthTitle(parsedDate: parsedDateType) {
+    const monthName = MONTHS[parsedDate.month - 1];
+    const year = parsedDate.year;
+    return `${monthName} ${year}`;
+}
+
+function getSurroundingMonth(parsedDate: parsedDateType): (number | undefined)[][] {
+    const surroundingMonth: (number | undefined)[][] = [];
+    const firstDay = new Date(parsedDate.year, parsedDate.month - 1, 1);
+    const firstWeek = [];
+    const lastDayOfMonth = getLastDayOfMonth(parsedDate);
+    let dayOfMonth = 0;
+    for (let dayOfWeek = 1; dayOfWeek < firstDay.getDay(); dayOfWeek++) {
+        firstWeek.push(undefined);
+    }
+    for (let dayOfWeek = firstDay.getDay(); dayOfWeek <= 7; dayOfWeek++) {
+        dayOfMonth++;
+        firstWeek.push(dayOfMonth);
+    }
+    surroundingMonth.push(firstWeek);
+
+    let currentWeek: (number | undefined)[] = [];
+    while (dayOfMonth < lastDayOfMonth) {
+        dayOfMonth++;
+        if (currentWeek.length === 7) {
+            surroundingMonth.push(currentWeek);
+            currentWeek = [dayOfMonth];
+        } else {
+            currentWeek.push(dayOfMonth);
+        }
+    }
+    if (currentWeek.length > 0) {
+        while (currentWeek.length < 7) {
+            currentWeek.push(undefined);
+        }
+        surroundingMonth.push(currentWeek);
+    }
+
+    return surroundingMonth;
+}
+
+function getLastDayOfMonth(parsedDate: parsedDateType): number {
+    const date = new Date(parsedDate.year, parsedDate.month, 0);
+    return date.getDate();
+}
+
 function getSurroundingWeek(parsedDate: parsedDateType): parsedDateType[] {
     const date = new Date(parsedDate.year, parsedDate.month - 1, parsedDate.dayOfMonth);
     let dayOfWeek = date.getDay();
@@ -91,6 +137,12 @@ function modifyDateByDays(parsedDate: parsedDateType, days: number): parsedDateT
     return convertDateToParsedDate(date);
 }
 
+function modifyDateByMonths(parsedDate: parsedDateType, months: number): parsedDateType {
+    const date = new Date(parsedDate.year, parsedDate.month - 1, parsedDate.dayOfMonth);
+    date.setMonth(date.getMonth() + months);
+    return convertDateToParsedDate(date);
+}
+
 function convertParsedDateToReadableDate(parsedDate: parsedDateType) {
     const date = new Date(parsedDate.year, parsedDate.month - 1, parsedDate.dayOfMonth);
     return date.toLocaleDateString();
@@ -125,6 +177,9 @@ export {
     convertDateToParsedDate,
     convertParsedDateToDateString,
     modifyDateByDays,
+    modifyDateByMonths,
     getSurroundingWeek,
     computeWeekTitle,
+    computeMonthTitle,
+    getSurroundingMonth,
 };
