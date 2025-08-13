@@ -1,14 +1,16 @@
 import { styled, Typography } from '@mui/material';
 import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
-import { convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
+import { compareDates, convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
 
 function DayMoods(props: {
+    todayParsedDate: parsedDateType;
     selectedDate: parsedDateType;
     moods: moodApiType[] | undefined;
     isLoading: boolean;
 }) {
+    const isDateInFuture = compareDates(props.selectedDate, props.todayParsedDate) > 0;
     return (
         <Container>
             {dayMomentKeys.map((dayMomentKey) => {
@@ -24,7 +26,9 @@ function DayMoods(props: {
                         </RowLabelContainer>
                         <RowMoodContainer>
                             <CellMoodContainer>
-                                <DayMomentMood mood={mood} isLoading={props.isLoading} />
+                                {!isDateInFuture && (
+                                    <DayMomentMood mood={mood} isLoading={props.isLoading} />
+                                )}
                             </CellMoodContainer>
                         </RowMoodContainer>
                     </Row>

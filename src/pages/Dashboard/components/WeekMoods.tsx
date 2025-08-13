@@ -1,12 +1,18 @@
 import { styled, Typography } from '@mui/material';
 import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
-import { convertParsedDateToDateString, DAY_MOMENTS, DAYS_OF_THE_WEEK } from '../../../lib/date';
+import {
+    compareDates,
+    convertParsedDateToDateString,
+    DAY_MOMENTS,
+    DAYS_OF_THE_WEEK,
+} from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
 
 function WeekMoods(props: {
     surroundingWeek: parsedDateType[];
     moods: moodApiType[] | undefined;
+    todayParsedDate: parsedDateType;
     isLoading: boolean;
 }) {
     return (
@@ -29,6 +35,10 @@ function WeekMoods(props: {
                             <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
                         </DayMomentCell>
                         {props.surroundingWeek.map((date) => {
+                            const isDateInFuture = compareDates(date, props.todayParsedDate) > 0;
+                            if (isDateInFuture) {
+                                return <Cell key={`${dayMomentKey}-${date.dayOfMonth}`} />;
+                            }
                             const mood = props.moods?.find(
                                 (mood) =>
                                     mood.day_moment === dayMomentKey &&

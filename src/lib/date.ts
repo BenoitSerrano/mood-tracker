@@ -55,6 +55,15 @@ function computeWeekTitle(week: parsedDateType[]) {
     } ${week[week.length - 1].year}`;
 }
 
+function compareDates(dateA: parsedDateType, dateB: parsedDateType): number {
+    if (dateA.year !== dateB.year) {
+        return dateA.year - dateB.year;
+    }
+    if (dateA.month !== dateB.month) {
+        return dateA.month - dateB.month;
+    }
+    return dateA.dayOfMonth - dateB.dayOfMonth;
+}
 function computeMonthTitle(parsedDate: parsedDateType) {
     const monthName = MONTHS[parsedDate.month - 1];
     const year = parsedDate.year;
@@ -185,4 +194,5 @@ export {
     computeWeekTitle,
     computeMonthTitle,
     getSurroundingMonth,
+    compareDates,
 };

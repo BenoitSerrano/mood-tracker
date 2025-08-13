@@ -38,6 +38,7 @@ function Dashboard() {
                         />
                     </Header>,
                     <DayMoods
+                        todayParsedDate={todayParsedDate}
                         key="day-moods"
                         moods={moodsApiQuery.data}
                         selectedDate={selectedDate}
@@ -56,6 +57,7 @@ function Dashboard() {
                         />
                     </Header>,
                     <WeekMoods
+                        todayParsedDate={todayParsedDate}
                         key="week-moods"
                         moods={moodsApiQuery.data}
                         surroundingWeek={surroundingWeek}
@@ -72,6 +74,7 @@ function Dashboard() {
                         />
                     </Header>,
                     <MonthMoods
+                        todayParsedDate={todayParsedDate}
                         key="month-moods"
                         selectedDate={selectedDate}
                         moods={moodsApiQuery.data}
