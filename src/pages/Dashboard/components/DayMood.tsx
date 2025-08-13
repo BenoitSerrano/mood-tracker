@@ -28,6 +28,7 @@ function MoodPlaceholder() {
 
 const MoodContainer = styled('div')(({ theme, color }) => ({
     background: color ? color : theme.palette.grey[300],
+    opacity: color ? 1 : 0.2,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
