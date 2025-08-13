@@ -19,10 +19,13 @@ function DayMoods(props: {
                         mood.day_moment === dayMomentKey &&
                         mood.day === convertParsedDateToDateString(props.selectedDate),
                 );
+                const DayMomentIconComponent = DAY_MOMENTS[dayMomentKey].iconComponent;
+
                 return (
                     <Row key={dayMomentKey}>
                         <RowLabelContainer>
                             <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
+                            <DayMomentIconComponent />
                         </RowLabelContainer>
                         <RowMoodContainer>
                             <CellMoodContainer>

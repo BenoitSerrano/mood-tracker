@@ -29,29 +29,34 @@ function WeekMoods(props: {
                         </DayOfWeekCell>
                     ))}
                 </HeadRow>
-                {dayMomentKeys.map((dayMomentKey) => (
-                    <Row key={dayMomentKey}>
-                        <DayMomentCell>
-                            <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
-                        </DayMomentCell>
-                        {props.surroundingWeek.map((date) => {
-                            const isDateInFuture = compareDates(date, props.todayParsedDate) > 0;
-                            if (isDateInFuture) {
-                                return <Cell key={`${dayMomentKey}-${date.dayOfMonth}`} />;
-                            }
-                            const mood = props.moods?.find(
-                                (mood) =>
-                                    mood.day_moment === dayMomentKey &&
-                                    mood.day === convertParsedDateToDateString(date),
-                            );
-                            return (
-                                <Cell key={`${dayMomentKey}-${date.dayOfMonth}`}>
-                                    <DayMomentMood isLoading={props.isLoading} mood={mood} />
-                                </Cell>
-                            );
-                        })}
-                    </Row>
-                ))}
+                {dayMomentKeys.map((dayMomentKey) => {
+                    const DayMomentIconComponent = DAY_MOMENTS[dayMomentKey].iconComponent;
+                    return (
+                        <Row key={dayMomentKey}>
+                            <DayMomentCell>
+                                <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
+                                <DayMomentIconComponent />
+                            </DayMomentCell>
+                            {props.surroundingWeek.map((date) => {
+                                const isDateInFuture =
+                                    compareDates(date, props.todayParsedDate) > 0;
+                                if (isDateInFuture) {
+                                    return <Cell key={`${dayMomentKey}-${date.dayOfMonth}`} />;
+                                }
+                                const mood = props.moods?.find(
+                                    (mood) =>
+                                        mood.day_moment === dayMomentKey &&
+                                        mood.day === convertParsedDateToDateString(date),
+                                );
+                                return (
+                                    <Cell key={`${dayMomentKey}-${date.dayOfMonth}`}>
+                                        <DayMomentMood isLoading={props.isLoading} mood={mood} />
+                                    </Cell>
+                                );
+                            })}
+                        </Row>
+                    );
+                })}
             </Table>
         </Container>
     );
@@ -105,6 +110,7 @@ const DayOfWeekCell = styled('div')(({ theme }) => ({
 const DayMomentCell = styled('div')(({ theme }) => ({
     textAlign: 'center',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,

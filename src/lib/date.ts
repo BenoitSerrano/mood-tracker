@@ -1,4 +1,7 @@
 import { dayMomentType, parsedDateType } from '../types';
+import NightlightOutlinedIcon from '@mui/icons-material/NightlightOutlined';
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
+import FreeBreakfastOutlinedIcon from '@mui/icons-material/FreeBreakfastOutlined';
 
 function convertDateToString(date: Date): string {
     const year = date.getFullYear();
@@ -163,19 +166,22 @@ const DAY_MOMENTS = computeDayMoments();
 
 function computeDayMoments(): Record<
     dayMomentType,
-    { label: string; computer: (time: string) => boolean }
+    { label: string; computer: (time: string) => boolean; iconComponent: React.ComponentType }
 > {
     return {
         morning: {
             label: 'Matin',
+            iconComponent: FreeBreakfastOutlinedIcon,
             computer: (time: string) => time < '12:00',
         },
         afternoon: {
             label: 'Après-midi',
+            iconComponent: WbSunnyOutlinedIcon,
             computer: (time: string) => time >= '12:00' && time < '18:00',
         },
         evening: {
             label: 'Soirée',
+            iconComponent: NightlightOutlinedIcon,
             computer: (time: string) => time >= '18:00' && time < '24:00',
         },
     };
