@@ -1,6 +1,7 @@
-import { styled, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { TIME_MODES, timeModeMapping, timeModeType } from '../constants';
+import { styled } from '@mui/material';
+import { timeModeType } from '../constants';
 import { ReactNode, useEffect } from 'react';
+import { TimeModeChanger } from './TimeModeChanger';
 
 const HEADER_HEIGHT = '70px';
 
@@ -33,18 +34,7 @@ function Header(props: {
         <Container>
             <LeftContainer>{props.children}</LeftContainer>
             <RightContainer>
-                <ToggleButtonGroup>
-                    {TIME_MODES.map((timeMode) => (
-                        <ToggleButton
-                            value={timeMode}
-                            key={timeMode}
-                            selected={props.timeMode === timeMode}
-                            onClick={() => setTimeMode(timeMode)}
-                        >
-                            {timeModeMapping[timeMode]}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
+                <TimeModeChanger timeMode={props.timeMode} setTimeMode={props.setTimeMode} />
             </RightContainer>
         </Container>
     );
@@ -58,13 +48,19 @@ const Container = styled('div')(() => ({
     height: HEADER_HEIGHT,
 }));
 
+const LeftContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+}));
+
 const RightContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-}));
-const LeftContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+        flex: 1,
+    },
+    paddingLeft: theme.spacing(2),
 }));
 
 export { Header, HEADER_HEIGHT };

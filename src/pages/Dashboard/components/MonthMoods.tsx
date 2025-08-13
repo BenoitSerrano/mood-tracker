@@ -17,7 +17,8 @@ function MonthMoods(props: {
                 <HeadRow>
                     {DAYS_OF_THE_WEEK.map((day, index) => (
                         <DayOfWeekCell key={day}>
-                            <Typography variant="h2">{day}. </Typography>
+                            <DayOfWeekAbreviation variant="h2">{day}. </DayOfWeekAbreviation>
+                            <DayOfWeekInitial variant="h2">{day.charAt(0)}</DayOfWeekInitial>
                         </DayOfWeekCell>
                     ))}
                 </HeadRow>
@@ -130,6 +131,17 @@ const EmptyCell = styled('div')(({ theme }) => ({
     padding: theme.spacing(1),
 
     backgroundColor: theme.palette.background.paper,
+}));
+
+const DayOfWeekAbreviation = styled(Typography)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+        display: 'none',
+    },
+}));
+const DayOfWeekInitial = styled(Typography)(({ theme }) => ({
+    [theme.breakpoints.up('sm')]: {
+        display: 'none',
+    },
 }));
 
 export { MonthMoods };
