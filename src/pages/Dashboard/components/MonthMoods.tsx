@@ -56,6 +56,7 @@ function MonthMoods(props: {
                                                 key={`${dayMomentKey}-${parsedDate.dayOfMonth}`}
                                             >
                                                 <DayMomentMood
+                                                    shouldHideMoodLabelWhenSmallScreen
                                                     isLoading={props.isLoading}
                                                     mood={mood}
                                                 />

@@ -50,7 +50,11 @@ function WeekMoods(props: {
                                 );
                                 return (
                                     <Cell key={`${dayMomentKey}-${date.dayOfMonth}`}>
-                                        <DayMomentMood isLoading={props.isLoading} mood={mood} />
+                                        <DayMomentMood
+                                            shouldHideMoodLabelWhenSmallScreen
+                                            isLoading={props.isLoading}
+                                            mood={mood}
+                                        />
                                     </Cell>
                                 );
                             })}

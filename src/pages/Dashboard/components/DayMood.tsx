@@ -2,7 +2,11 @@ import CloudOffIcon from '@mui/icons-material/CloudOff';
 import { Skeleton, styled, Typography } from '@mui/material';
 import { emotionMapping, moodApiType } from '../../../types';
 
-function DayMomentMood(props: { mood: moodApiType | undefined; isLoading: boolean }) {
+function DayMomentMood(props: {
+    mood: moodApiType | undefined;
+    isLoading: boolean;
+    shouldHideMoodLabelWhenSmallScreen?: boolean;
+}) {
     const { mood, isLoading } = props;
     if (isLoading) {
         return <StyledSkeleton />;
@@ -13,7 +17,11 @@ function DayMomentMood(props: { mood: moodApiType | undefined; isLoading: boolea
 
     return (
         <MoodContainer color={emotionMapping[mood.major][mood.minor].color}>
-            <MinorMood>{emotionMapping[mood.major][mood.minor].label}</MinorMood>
+            <MinorMood
+                shouldHideMoodLabelWhenSmallScreen={props.shouldHideMoodLabelWhenSmallScreen}
+            >
+                {emotionMapping[mood.major][mood.minor].label}
+            </MinorMood>
         </MoodContainer>
     );
 }
@@ -50,8 +58,13 @@ const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
     width: '100%',
 }));
 
-const MinorMood = styled(Typography)(({ theme }) => ({
-    color: theme.palette.common.black,
-}));
+const MinorMood = styled(Typography)<{ shouldHideMoodLabelWhenSmallScreen: boolean | undefined }>(
+    ({ theme, shouldHideMoodLabelWhenSmallScreen }) => ({
+        color: theme.palette.common.black,
+        [theme.breakpoints.down('sm')]: {
+            display: shouldHideMoodLabelWhenSmallScreen ? 'none' : undefined,
+        },
+    }),
+);
 
 export { DayMomentMood };
