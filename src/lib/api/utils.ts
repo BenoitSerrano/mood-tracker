@@ -1,4 +1,5 @@
 import { ApiError } from '../errors';
+import { storage } from '../storage';
 
 const PROTOCOL = 'https';
 const HOST = 'multi-usage-api.onrender.com';
@@ -28,6 +29,7 @@ async function performApiCall<dataT>(
         method,
         headers,
         body: parsedBody,
+        credentials: 'include',
     });
     if (!response.ok) {
         let message = response.statusText;
@@ -58,6 +60,11 @@ function computeHeaders(body?: apiCallBodyType) {
     const headers: Record<string, string> = {
         Accept: 'application/json',
     };
+    const token = storage.jwtHandler.get();
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
     if (body && body.kind === 'data') {
         headers['Content-Type'] = 'application/json';
     }

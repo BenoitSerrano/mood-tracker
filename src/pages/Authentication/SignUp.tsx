@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApiCall } from '../../lib/api/useApiCall';
 import { api } from '../../lib/api';
 import { pathHandler } from '../../lib/api/pathHandler';
+import { storage } from '../../lib/storage';
 
 function SignUp() {
     const [email, setEmail] = useState('');
@@ -12,7 +13,10 @@ function SignUp() {
 
     const createUserApiCall = useApiCall({
         apiCall: api.createUser,
-        onSuccess: () => {
+        onSuccess: (data) => {
+            const { token } = data;
+            storage.jwtHandler.set(token);
+
             navigate(pathHandler.getRoutePath('HOME'));
         },
     });
