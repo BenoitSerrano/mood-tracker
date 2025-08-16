@@ -5,6 +5,7 @@ const api = {
     createMood,
     getMoods,
     ping,
+    createUser,
 };
 
 async function ping() {
@@ -20,6 +21,13 @@ async function createMood(params: moodDtoType) {
 
 async function getMoods() {
     return performApiCall<moodApiType[]>('moods', 'GET');
+}
+
+async function createUser(params: { email: string; password: string }) {
+    return performApiCall<{ token: string }>('users', 'POST', {
+        kind: 'data',
+        data: params,
+    });
 }
 
 export { api };
