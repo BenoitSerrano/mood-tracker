@@ -22,53 +22,33 @@ type moodApiType = {
     day: string;
 };
 
-const majorEmotions = ['happiness', 'sadness', 'tension'] as const;
-const minorEmotions = [
-    'content',
-    'cheerful',
-    'happy',
-    'elated',
-    'down',
-    'sad',
-    'depressed',
-    'despaired',
-    'uneasy',
-    'nervous',
-    'anxious',
-    'panicked',
-] as const;
+const majorEmotions = ['happiness', 'sadness', 'anxiety', 'fury'] as const;
 
 type majorEmotionType = (typeof majorEmotions)[number];
-type minorEmotionType = (typeof minorEmotions)[number];
-type minorEmotionMappingType = { key: minorEmotionType; color: string; label: string };
+type minorEmotionMappingType = { grade: number; color: string; label: string };
 
 const emotionMapping: Record<majorEmotionType, minorEmotionMappingType[]> = {
     happiness: [
-        { key: 'content', color: '#D4EDB0', label: 'Content' },
-        { key: 'cheerful', color: '#B2E672', label: 'Cheerful' },
-        { key: 'happy', color: '#FFD93B', label: 'Happy' },
-        { key: 'elated', color: '#FFC300', label: 'Elated' },
+        { grade: 0, color: '#D4EDB0', label: 'Content' },
+        { grade: 1, color: '#B2E672', label: 'Cheerful' },
+        { grade: 2, color: '#FFD93B', label: 'Happy' },
     ],
     sadness: [
-        { key: 'down', color: '#A3C4DC', label: 'Down' },
-        { key: 'sad', color: '#6DA8D6', label: 'Sad' },
-        { key: 'depressed', color: '#41729F', label: 'Depressed' },
-        { key: 'despaired', color: '#2C3E50', label: 'Despaired' },
+        { grade: 0, color: '#A3C4DC', label: 'Down' },
+        { grade: 1, color: '#6DA8D6', label: 'Sad' },
+        { grade: 2, color: '#41729F', label: 'Depressed' },
     ],
-    tension: [
-        { key: 'uneasy', color: '#F8B4A2', label: 'Uneasy' },
-        { key: 'nervous', color: '#F88379', label: 'Nervous' },
-        { key: 'anxious', color: '#E74C3C', label: 'Anxious' },
-        { key: 'panicked', color: '#C0392B', label: 'Panicked' },
+    anxiety: [
+        { grade: 1, color: '#F88379', label: 'Uncomfortable' },
+        { grade: 2, color: '#E74C3C', label: 'Anxious' },
+        { grade: 3, color: '#C0392B', label: 'Panicked' },
+    ],
+    fury: [
+        { grade: 1, color: '#FF5733', label: 'Upset' },
+        { grade: 2, color: '#C70039', label: 'Frustrated' },
+        { grade: 3, color: '#900C3F', label: 'Angry' },
     ],
 };
 
-export { emotionMapping, dayMomentKeys };
-export type {
-    moodDtoType,
-    majorEmotionType,
-    minorEmotionType,
-    dayMomentType,
-    moodApiType,
-    parsedDateType,
-};
+export { emotionMapping, dayMomentKeys, majorEmotions };
+export type { moodDtoType, majorEmotionType, dayMomentType, moodApiType, parsedDateType };

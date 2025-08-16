@@ -12,6 +12,7 @@ import {
     dayMomentKeys,
     dayMomentType,
     emotionMapping,
+    majorEmotions,
     majorEmotionType,
     moodApiType,
     moodDtoType,
@@ -97,66 +98,29 @@ function Home() {
                 </RadioButtonsContainer>
             </Header>
             <MajorEmotionsContainer>
-                <MajorEmotionContainer key="happiness">
-                    {emotionMapping.happiness.map((minorEmotion, index) => (
-                        <MinorEmotionContainer
-                            onClick={buildOnClickHandler(
-                                index,
-                                'happiness',
-                                selectedDayMoment,
-                                dates[selectedDate].date,
-                            )}
-                            key={minorEmotion.key}
-                            color={minorEmotion.color}
-                            disabled={
-                                !selectedDayMoment ||
-                                (currentMood?.major === 'happiness' && currentMood.minor === index)
-                            }
-                        >
-                            <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
-                        </MinorEmotionContainer>
-                    ))}
-                </MajorEmotionContainer>
-                <MajorEmotionContainer key="sadness">
-                    {emotionMapping.sadness.map((minorEmotion, index) => (
-                        <MinorEmotionContainer
-                            onClick={buildOnClickHandler(
-                                index,
-                                'sadness',
-                                selectedDayMoment,
-                                dates[selectedDate].date,
-                            )}
-                            key={minorEmotion.key}
-                            color={minorEmotion.color}
-                            disabled={
-                                !selectedDayMoment ||
-                                (currentMood?.major === 'sadness' && currentMood.minor === index)
-                            }
-                        >
-                            <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
-                        </MinorEmotionContainer>
-                    ))}
-                </MajorEmotionContainer>
-                <MajorEmotionContainer key="tension">
-                    {emotionMapping.tension.map((minorEmotion, index) => (
-                        <MinorEmotionContainer
-                            onClick={buildOnClickHandler(
-                                index,
-                                'tension',
-                                selectedDayMoment,
-                                dates[selectedDate].date,
-                            )}
-                            key={minorEmotion.key}
-                            color={minorEmotion.color}
-                            disabled={
-                                !selectedDayMoment ||
-                                (currentMood?.major === 'tension' && currentMood.minor === index)
-                            }
-                        >
-                            <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
-                        </MinorEmotionContainer>
-                    ))}
-                </MajorEmotionContainer>
+                {majorEmotions.map((majorEmotionKey) => (
+                    <MajorEmotionContainer key={majorEmotionKey}>
+                        {emotionMapping[majorEmotionKey].map((minorEmotion, index) => (
+                            <MinorEmotionContainer
+                                onClick={buildOnClickHandler(
+                                    index,
+                                    majorEmotionKey,
+                                    selectedDayMoment,
+                                    dates[selectedDate].date,
+                                )}
+                                key={`${majorEmotionKey}-${minorEmotion.grade}`}
+                                color={minorEmotion.color}
+                                disabled={
+                                    !selectedDayMoment ||
+                                    (currentMood?.major === majorEmotionKey &&
+                                        currentMood.minor === index)
+                                }
+                            >
+                                <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
+                            </MinorEmotionContainer>
+                        ))}
+                    </MajorEmotionContainer>
+                ))}
             </MajorEmotionsContainer>
         </Container>
     );
