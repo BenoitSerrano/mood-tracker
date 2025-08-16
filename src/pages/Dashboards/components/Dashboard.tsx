@@ -1,26 +1,25 @@
 import { styled } from '@mui/material';
 import { useState } from 'react';
-import { convertDateToParsedDate, getSurroundingMonth, getSurroundingWeek } from '../../lib/date';
-import { DayMoods } from './components/DayMoods';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '../../lib/api';
-import { Header } from './components/Header';
-import { WeekMoods } from './components/WeekMoods';
-import { timeModeType } from './constants';
-import { DayDateChanger } from './components/DayDateChanger';
-import { WeekDateChanger } from './components/WeekDateChanger';
-import { MonthMoods } from './components/MonthMoods';
-import { MonthDateChanger } from './components/MonthDateChanger';
+import {
+    convertDateToParsedDate,
+    getSurroundingMonth,
+    getSurroundingWeek,
+} from '../../../lib/date';
+import { timeModeType } from '../constants';
+import { DayDateChanger } from './DayDateChanger';
+import { Header } from './Header';
+import { DayMoods } from './DayMoods';
+import { WeekDateChanger } from './WeekDateChanger';
+import { WeekMoods } from './WeekMoods';
+import { MonthDateChanger } from './MonthDateChanger';
+import { MonthMoods } from './MonthMoods';
+import { moodApiType } from '../../../types';
 
-function Dashboard() {
+function Dashboard(props: { moods: moodApiType[] | undefined; isLoading: boolean }) {
     const todayParsedDate = convertDateToParsedDate(new Date());
     const [timeMode, setTimeMode] = useState<timeModeType>('day');
     const [selectedDate, setSelectedDate] = useState(todayParsedDate);
-    const moodsApiQuery = useQuery({
-        queryFn: api.getMoods,
-        queryKey: ['moods'],
-        refetchOnWindowFocus: true,
-    });
+
     return (
         <Container>
             <ContentContainer>{renderMoods()}</ContentContainer>
@@ -40,9 +39,9 @@ function Dashboard() {
                     <DayMoods
                         todayParsedDate={todayParsedDate}
                         key="day-moods"
-                        moods={moodsApiQuery.data}
+                        moods={props.moods}
                         selectedDate={selectedDate}
-                        isLoading={moodsApiQuery.isLoading}
+                        isLoading={props.isLoading}
                     />,
                 ];
             case 'week':
@@ -59,9 +58,9 @@ function Dashboard() {
                     <WeekMoods
                         todayParsedDate={todayParsedDate}
                         key="week-moods"
-                        moods={moodsApiQuery.data}
+                        moods={props.moods}
                         surroundingWeek={surroundingWeek}
-                        isLoading={moodsApiQuery.isLoading}
+                        isLoading={props.isLoading}
                     />,
                 ];
             case 'month':
@@ -77,9 +76,9 @@ function Dashboard() {
                         todayParsedDate={todayParsedDate}
                         key="month-moods"
                         selectedDate={selectedDate}
-                        moods={moodsApiQuery.data}
+                        moods={props.moods}
                         surroundingMonth={surroundingMonth}
-                        isLoading={moodsApiQuery.isLoading}
+                        isLoading={props.isLoading}
                     />,
                 ];
         }

@@ -3,7 +3,8 @@ import { performApiCall } from './utils';
 
 const api = {
     createMood,
-    getMoods,
+    getMyMoods,
+    getMoodsForUser,
     ping,
     createUser,
     login,
@@ -20,8 +21,12 @@ async function createMood(params: moodDtoType) {
     });
 }
 
-async function getMoods() {
+async function getMyMoods() {
     return performApiCall<moodApiType[]>('moods', 'GET');
+}
+
+async function getMoodsForUser(userId: string) {
+    return performApiCall<moodApiType[]>(`users/${userId}/moods`, 'GET');
 }
 
 async function createUser(params: { email: string; password: string }) {

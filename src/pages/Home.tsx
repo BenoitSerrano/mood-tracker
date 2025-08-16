@@ -37,8 +37,8 @@ function Home() {
     }) as dayMomentType | undefined;
     useQuery({ queryFn: api.ping, queryKey: ['ping'], refetchOnWindowFocus: true });
     const moodsApiQuery = useQuery({
-        queryFn: api.getMoods,
-        queryKey: ['moods'],
+        queryFn: api.getMyMoods,
+        queryKey: ['moods', 'me'],
         refetchOnWindowFocus: true,
     });
 
