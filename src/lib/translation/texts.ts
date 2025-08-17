@@ -8,6 +8,16 @@ const englishText = {
     personalDashboard: {
         title: 'My dashboard',
     },
+    landing: {
+        signUpCard: {
+            title: 'First time here?',
+            buttonLabel: 'Create an account',
+        },
+        signInCard: {
+            title: 'Already registered?',
+            buttonLabel: 'Sign in',
+        },
+    },
     shared: {
         timeMode: {
             day: 'Day',
@@ -76,6 +86,16 @@ const frenchText: TranslationTexts = {
     },
     personalDashboard: {
         title: 'Mon tableau de bord',
+    },
+    landing: {
+        signUpCard: {
+            title: 'Première fois ici ?',
+            buttonLabel: 'Créer un compte',
+        },
+        signInCard: {
+            title: 'Déjà inscrit ?',
+            buttonLabel: 'Se connecter',
+        },
     },
     shared: {
         timeMode: {

@@ -48,7 +48,6 @@ function SignUp() {
                     <FieldContainer>
                         <TextField
                             required
-                            autoFocus
                             fullWidth
                             name="email"
                             type="email"
