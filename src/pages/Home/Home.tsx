@@ -203,8 +203,8 @@ const MajorEmotionsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    height: `calc(100% - ${TIME_SELECTION_HEIGHT})`,
     gap: theme.spacing(1),
+    padding: theme.spacing(1),
 }));
 const MajorEmotionContainer = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -227,8 +227,10 @@ const MinorEmotionContainer = styled('button')<{ color: string; disabled: boolea
 );
 const Container = styled('div')(({ theme }) => ({
     height: '100vh',
+    display: 'flex',
     backgroundColor: theme.palette.background.default,
     position: 'relative',
+    flexDirection: 'column',
 }));
 const MinorEmotionLabel = styled(Typography)(({ theme }) => ({
     color: theme.palette.common.black,
