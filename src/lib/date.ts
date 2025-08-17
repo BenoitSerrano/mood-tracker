@@ -72,10 +72,14 @@ function getSurroundingMonth(parsedDate: parsedDateType): (number | undefined)[]
     const firstWeek = [];
     const lastDayOfMonth = getLastDayOfMonth(parsedDate);
     let dayOfMonth = 0;
-    for (let dayOfWeek = 1; dayOfWeek < firstDay.getDay(); dayOfWeek++) {
+    let firstDayDay = firstDay.getDay();
+    if (firstDayDay === 0) {
+        firstDayDay = 7;
+    }
+    for (let dayOfWeek = 1; dayOfWeek < firstDayDay; dayOfWeek++) {
         firstWeek.push(undefined);
     }
-    for (let dayOfWeek = firstDay.getDay(); dayOfWeek <= 7; dayOfWeek++) {
+    for (let dayOfWeek = firstDayDay; dayOfWeek <= 7; dayOfWeek++) {
         dayOfMonth++;
         firstWeek.push(dayOfMonth);
     }
