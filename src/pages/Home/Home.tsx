@@ -196,7 +196,7 @@ const LoaderContainer = styled('div')(({ theme }) => ({
 }));
 const DateSelect = styled(Select)(({ theme }) => ({
     flex: 1,
-    padding: theme.spacing(2),
+    marginLeft: theme.spacing(2),
 }));
 
 const MajorEmotionsContainer = styled('div')(({ theme }) => ({
