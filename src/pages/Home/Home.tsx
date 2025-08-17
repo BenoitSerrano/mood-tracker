@@ -1,4 +1,4 @@
-import { CircularProgress, MenuItem, Select, styled, Typography } from '@mui/material';
+import { LinearProgress, MenuItem, Select, styled, Typography } from '@mui/material';
 import { useState } from 'react';
 import {
     dayMomentKeys,
@@ -17,8 +17,8 @@ import { convertDateToString, DAY_MOMENTS } from '../../lib/date';
 import { DayMomentPicker } from './components/DayMomentPicker';
 
 type selectedDateType = 'yesterday' | 'today';
-const TIME_SELECTION_HEIGHT = '100px';
-const LOADER_SIZE = '20px';
+const TIME_SELECTION_HEIGHT = '70px';
+const PROGRESS_HEIGHT = '5px';
 
 function Home() {
     const { displayAlert } = useAlert();
@@ -59,11 +59,6 @@ function Home() {
     return (
         <Container>
             <Header>
-                {isLoading && (
-                    <LoaderContainer>
-                        <CircularProgress />
-                    </LoaderContainer>
-                )}
                 <DateSelect
                     variant="standard"
                     value={selectedDate}
@@ -80,6 +75,9 @@ function Home() {
                     setSelectedDayMoment={setSelectedDayMoment}
                 />
             </Header>
+            <LoaderContainer>
+                {isLoading ? <StyledProgress /> : <ProgressPlaceholder />}
+            </LoaderContainer>
             <MajorEmotionsContainer>
                 {majorEmotions.map((majorEmotionKey) => (
                     <MajorEmotionContainer key={majorEmotionKey}>
@@ -185,14 +183,16 @@ const Header = styled('div')(({ theme }) => ({
     gap: theme.spacing(2),
 }));
 const LoaderContainer = styled('div')(({ theme }) => ({
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-    position: 'absolute',
-    height: LOADER_SIZE,
-    width: LOADER_SIZE,
-    top: 0,
-    left: 0,
+    height: PROGRESS_HEIGHT,
+    padding: theme.spacing(1),
+}));
+const StyledProgress = styled(LinearProgress)(({ theme }) => ({
+    height: PROGRESS_HEIGHT,
+    width: '100%',
+}));
+const ProgressPlaceholder = styled('div')(({ theme }) => ({
+    height: PROGRESS_HEIGHT,
+    width: '100%',
 }));
 const DateSelect = styled(Select)(({ theme }) => ({
     flex: 1,
