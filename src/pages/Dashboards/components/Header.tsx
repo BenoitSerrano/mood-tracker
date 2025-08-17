@@ -2,7 +2,7 @@ import { styled } from '@mui/material';
 import { timeModeType } from '../constants';
 import { ReactNode, useEffect } from 'react';
 import { TimeModeChanger } from './TimeModeChanger';
-import { Logo } from '../../../component/Logo';
+import { Logo } from '../../../components/Logo';
 
 const HEADER_HEIGHT = '70px';
 

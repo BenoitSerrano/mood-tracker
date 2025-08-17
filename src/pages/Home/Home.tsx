@@ -15,7 +15,7 @@ import { useApiCall } from '../../lib/api/useApiCall';
 import { useAlert } from '../../lib/alert';
 import { convertDateToString, DAY_MOMENTS } from '../../lib/date';
 import { DayMomentPicker } from './components/DayMomentPicker';
-import { Logo } from '../../component/Logo';
+import { Logo } from '../../components/Logo';
 import { useLanguage } from '../../lib/translation';
 
 type selectedDateType = 'yesterday' | 'today';
