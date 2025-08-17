@@ -1,4 +1,4 @@
-import { FormControlLabel, Radio, styled } from '@mui/material';
+import { Button, styled } from '@mui/material';
 import { dayMomentKeys, dayMomentType } from '../../../types';
 import { DAY_MOMENTS } from '../../../lib/date';
 
@@ -8,33 +8,34 @@ function DayMomentPicker(props: {
 }) {
     const { selectedDayMoment, setSelectedDayMoment } = props;
     return (
-        <RadioButtonsContainer>
-            {dayMomentKeys.map((dayMomentKey) => (
-                <FormControlLabel
-                    key={dayMomentKey}
-                    control={
-                        <Radio
-                            checked={selectedDayMoment === dayMomentKey}
-                            onChange={() => setSelectedDayMoment(dayMomentKey)}
-                        />
-                    }
-                    label={DAY_MOMENTS[dayMomentKey].label}
-                />
-            ))}
-        </RadioButtonsContainer>
+        <ButtonsContainer>
+            {dayMomentKeys.map((dayMomentKey) => {
+                const IconComponent = DAY_MOMENTS[dayMomentKey].iconComponent;
+                const isSelected = selectedDayMoment === dayMomentKey;
+
+                return (
+                    <ButtonContainer key={`${dayMomentKey}-button`}>
+                        <Button
+                            startIcon={<IconComponent />}
+                            variant={isSelected ? 'contained' : 'outlined'}
+                            disableElevation={!isSelected}
+                            key={dayMomentKey}
+                            onClick={() => setSelectedDayMoment(dayMomentKey)}
+                        >
+                            {DAY_MOMENTS[dayMomentKey].label}
+                        </Button>
+                    </ButtonContainer>
+                );
+            })}
+        </ButtonsContainer>
     );
 }
 
-const RadioButtonsContainer = styled('div')(({ theme }) => ({
+const ButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'row',
-    [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        ' .MuiRadio-root': {
-            paddingTop: 0,
-            paddingBottom: 0,
-        },
-    },
+}));
+const ButtonContainer = styled('div')(({ theme }) => ({
+    padding: theme.spacing(1),
 }));
 
 export { DayMomentPicker };
