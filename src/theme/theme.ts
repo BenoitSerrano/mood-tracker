@@ -47,7 +47,7 @@ const theme = createTheme({
             fontSize: '0.8rem',
         },
         caption: {
-            fontSize: '2rem',
+            fontSize: '0.7rem',
         },
     },
 });

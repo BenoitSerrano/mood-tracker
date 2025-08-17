@@ -1,10 +1,11 @@
-import { Button, Card, TextField, Typography, styled } from '@mui/material';
+import { Button, TextField, Typography, styled } from '@mui/material';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApiCall } from '../../lib/api/useApiCall';
 import { api } from '../../lib/api';
 import { pathHandler } from '../../lib/api/pathHandler';
 import { storage } from '../../lib/storage';
+import { AuthenticationPage } from './AuthenticationPage';
 
 function SignIn() {
     const [email, setEmail] = useState('');
@@ -21,50 +22,46 @@ function SignIn() {
     });
 
     return (
-        <>
-            <ContentContainer>
-                <Card>
-                    <CardContent onSubmit={handleSubmit}>
-                        <TitleContainer>
-                            <Typography variant="h2">Se connecter</Typography>
-                        </TitleContainer>
+        <AuthenticationPage>
+            <CardContent onSubmit={handleSubmit}>
+                <TitleContainer>
+                    <Typography variant="h2">Se connecter</Typography>
+                </TitleContainer>
 
-                        <FieldsContainer>
-                            <FieldContainer>
-                                <TextField
-                                    autoFocus
-                                    fullWidth
-                                    name="email"
-                                    type="email"
-                                    label="Adresse e-mail"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <TextField
-                                    fullWidth
-                                    name="password"
-                                    type="password"
-                                    label="Mot de passe"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                            </FieldContainer>
-                        </FieldsContainer>
+                <FieldsContainer>
+                    <FieldContainer>
+                        <TextField
+                            autoFocus
+                            fullWidth
+                            name="email"
+                            type="email"
+                            label="Adresse e-mail"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </FieldContainer>
+                    <FieldContainer>
+                        <TextField
+                            fullWidth
+                            name="password"
+                            type="password"
+                            label="Mot de passe"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </FieldContainer>
+                </FieldsContainer>
 
-                        <Button
-                            loading={loginApiCall.isLoading}
-                            type="submit"
-                            variant="contained"
-                            disabled={!password || !email}
-                        >
-                            Se connecter
-                        </Button>
-                    </CardContent>
-                </Card>
-            </ContentContainer>
-        </>
+                <Button
+                    loading={loginApiCall.isLoading}
+                    type="submit"
+                    variant="contained"
+                    disabled={!password || !email}
+                >
+                    Se connecter
+                </Button>
+            </CardContent>
+        </AuthenticationPage>
     );
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -72,13 +69,6 @@ function SignIn() {
         event.preventDefault();
     }
 }
-
-const ContentContainer = styled('div')({
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-});
 
 const CardContent = styled('form')(({ theme }) => ({
     display: 'flex',

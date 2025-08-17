@@ -29,7 +29,7 @@ async function getMoodsForUser(userId: string) {
     return performApiCall<moodApiType[]>(`users/${userId}/moods`, 'GET');
 }
 
-async function createUser(params: { email: string; password: string }) {
+async function createUser(params: { email: string; password: string; username: string }) {
     return performApiCall<{ token: string }>('users', 'POST', {
         kind: 'data',
         data: params,
