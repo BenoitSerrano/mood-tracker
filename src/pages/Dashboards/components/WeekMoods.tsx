@@ -4,7 +4,7 @@ import {
     compareDates,
     convertParsedDateToDateString,
     DAY_MOMENTS,
-    DAYS_OF_THE_WEEK,
+    daysOfTheWeekKeys,
 } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
@@ -22,21 +22,32 @@ function WeekMoods(props: {
             <Table>
                 <HeadRow>
                     <Cell />
-                    {DAYS_OF_THE_WEEK.map((day, index) => (
-                        <DayOfWeekCell key={day}>
-                            <Typography variant="h2">{day}. </Typography>
-                            <Typography variant="h2">
-                                {props.surroundingWeek[index].dayOfMonth}
-                            </Typography>
-                        </DayOfWeekCell>
-                    ))}
+                    {daysOfTheWeekKeys.map((dayOfTheWeekKey, index) => {
+                        const day = t(`shared.daysOfTheWeek.${dayOfTheWeekKey}`);
+                        return (
+                            <DayOfWeekCell key={day}>
+                                <DayLabelContainer>
+                                    <DayLabelText variant="h2">{day}. </DayLabelText>
+                                    <DayLabelInitialText variant="h2">
+                                        {day.charAt(0)}
+                                    </DayLabelInitialText>
+                                </DayLabelContainer>
+
+                                <Typography variant="h2">
+                                    {props.surroundingWeek[index].dayOfMonth}
+                                </Typography>
+                            </DayOfWeekCell>
+                        );
+                    })}
                 </HeadRow>
                 {dayMomentKeys.map((dayMomentKey) => {
                     const DayMomentIconComponent = DAY_MOMENTS[dayMomentKey].iconComponent;
                     return (
                         <Row key={dayMomentKey}>
                             <DayMomentCell>
-                                <Typography>{t(`shared.dayMoment.${dayMomentKey}`)}</Typography>
+                                <DayMomentLabel>
+                                    {t(`shared.dayMoment.${dayMomentKey}`)}
+                                </DayMomentLabel>
                                 <DayMomentIconComponent />
                             </DayMomentCell>
                             {props.surroundingWeek.map((date) => {
@@ -67,6 +78,26 @@ function WeekMoods(props: {
         </Container>
     );
 }
+
+const DayLabelContainer = styled('div')(({ theme }) => ({}));
+
+const DayLabelText = styled(Typography)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+        display: 'none',
+    },
+}));
+
+const DayMomentLabel = styled(Typography)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+        display: 'none',
+    },
+}));
+
+const DayLabelInitialText = styled(Typography)(({ theme }) => ({
+    [theme.breakpoints.up('sm')]: {
+        display: 'none',
+    },
+}));
 
 const Container = styled('div')(({ theme }) => ({
     display: 'flex',

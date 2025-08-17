@@ -24,7 +24,15 @@ const MONTH_KEYS = [
     'november',
     'december',
 ] as const;
-const DAYS_OF_THE_WEEK = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+const daysOfTheWeekKeys = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
+] as const;
 
 function computeWeekTitle(week: parsedDateType[], t: (key: string) => string): string {
     if (week[0].month === week[week.length - 1].month) {
@@ -183,7 +191,7 @@ function computeDayMoments(): Record<
 
 export {
     DAY_MOMENTS,
-    DAYS_OF_THE_WEEK,
+    daysOfTheWeekKeys,
     convertDateToString,
     convertParsedDateToReadableDate,
     convertDateToParsedDate,

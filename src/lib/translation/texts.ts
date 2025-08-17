@@ -30,6 +30,15 @@ const englishText = {
             november: { short: 'Nov.', long: 'November' },
             december: { short: 'Dec.', long: 'December' },
         },
+        daysOfTheWeek: {
+            monday: 'Mon',
+            tuesday: 'Tue',
+            wednesday: 'Wed',
+            thursday: 'Thu',
+            friday: 'Fri',
+            saturday: 'Sat',
+            sunday: 'Sun',
+        },
         emotions: {
             happiness: {
                 content: 'Content',
@@ -86,6 +95,15 @@ const frenchText: TranslationTexts = {
             october: { short: 'Oct.', long: 'Octobre' },
             november: { short: 'Nov.', long: 'Novembre' },
             december: { short: 'Déc.', long: 'Décembre' },
+        },
+        daysOfTheWeek: {
+            monday: 'Lun',
+            tuesday: 'Mar',
+            wednesday: 'Mer',
+            thursday: 'Jeu',
+            friday: 'Ven',
+            saturday: 'Sam',
+            sunday: 'Dim',
         },
         emotions: {
             happiness: {

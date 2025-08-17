@@ -1,8 +1,9 @@
 import { styled, Typography } from '@mui/material';
 import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
 import { HEADER_HEIGHT } from './Header';
-import { compareDates, convertParsedDateToDateString, DAYS_OF_THE_WEEK } from '../../../lib/date';
+import { compareDates, convertParsedDateToDateString, daysOfTheWeekKeys } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
+import { useLanguage } from '../../../lib/translation';
 
 function MonthMoods(props: {
     todayParsedDate: parsedDateType;
@@ -11,16 +12,20 @@ function MonthMoods(props: {
     isLoading: boolean;
     selectedDate: parsedDateType;
 }) {
+    const { t } = useLanguage();
     return (
         <Container>
             <Table>
                 <HeadRow>
-                    {DAYS_OF_THE_WEEK.map((day, index) => (
-                        <DayOfWeekCell key={day}>
-                            <DayOfWeekAbreviation variant="h2">{day}. </DayOfWeekAbreviation>
-                            <DayOfWeekInitial variant="h2">{day.charAt(0)}</DayOfWeekInitial>
-                        </DayOfWeekCell>
-                    ))}
+                    {daysOfTheWeekKeys.map((dayOfTheWeekKey) => {
+                        const day = t(`shared.daysOfTheWeek.${dayOfTheWeekKey}`);
+                        return (
+                            <DayOfWeekCell key={day}>
+                                <DayOfWeekAbreviation variant="h2">{day}. </DayOfWeekAbreviation>
+                                <DayOfWeekInitial variant="h2">{day.charAt(0)}</DayOfWeekInitial>
+                            </DayOfWeekCell>
+                        );
+                    })}
                 </HeadRow>
                 {props.surroundingMonth.map((week, weekIndex) => (
                     <Row key={weekIndex}>
