@@ -14,12 +14,11 @@ function DayMomentPicker(props: {
                 const isSelected = selectedDayMoment === dayMomentKey;
 
                 return (
-                    <ButtonContainer key={`${dayMomentKey}-button`}>
+                    <ButtonContainer key={`${dayMomentKey}-button-container`}>
                         <Button
                             startIcon={<IconComponent />}
                             variant={isSelected ? 'contained' : 'outlined'}
                             disableElevation={!isSelected}
-                            key={dayMomentKey}
                             onClick={() => setSelectedDayMoment(dayMomentKey)}
                         >
                             {DAY_MOMENTS[dayMomentKey].label}
