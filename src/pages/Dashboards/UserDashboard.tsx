@@ -12,7 +12,23 @@ function UserDashboard() {
         refetchOnWindowFocus: true,
     });
 
-    return <Dashboard moods={moodsApiQuery.data} isLoading={moodsApiQuery.isLoading} />;
+    const userInfoApiQuery = useQuery({
+        queryFn: () => api.getUserInfo({ userId }),
+        queryKey: ['userInfo', userId],
+    });
+
+    const title = computeTitle();
+
+    return (
+        <Dashboard title={title} moods={moodsApiQuery.data} isLoading={moodsApiQuery.isLoading} />
+    );
+
+    function computeTitle() {
+        if (!userInfoApiQuery.data) {
+            return undefined;
+        }
+        return userInfoApiQuery.data.username;
+    }
 }
 
 export { UserDashboard };

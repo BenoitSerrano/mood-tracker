@@ -27,13 +27,13 @@ function WeekMoods(props: {
                         return (
                             <DayOfWeekCell key={day}>
                                 <DayLabelContainer>
-                                    <DayLabelText variant="h2">{day}. </DayLabelText>
-                                    <DayLabelInitialText variant="h2">
+                                    <DayLabelText variant="h3">{day}. </DayLabelText>
+                                    <DayLabelInitialText variant="h3">
                                         {day.charAt(0)}
                                     </DayLabelInitialText>
                                 </DayLabelContainer>
 
-                                <Typography variant="h2">
+                                <Typography variant="h3">
                                     {props.surroundingWeek[index].dayOfMonth}
                                 </Typography>
                             </DayOfWeekCell>

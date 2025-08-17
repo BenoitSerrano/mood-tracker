@@ -14,8 +14,13 @@ import { WeekMoods } from './WeekMoods';
 import { MonthDateChanger } from './MonthDateChanger';
 import { MonthMoods } from './MonthMoods';
 import { moodApiType } from '../../../types';
+import { DashboardTitle } from './DashboardTitle';
 
-function Dashboard(props: { moods: moodApiType[] | undefined; isLoading: boolean }) {
+function Dashboard(props: {
+    moods: moodApiType[] | undefined;
+    isLoading: boolean;
+    title: string | undefined;
+}) {
     const todayParsedDate = convertDateToParsedDate(new Date());
     const [timeMode, setTimeMode] = useState<timeModeType>('day');
     const [selectedDate, setSelectedDate] = useState(todayParsedDate);
@@ -36,6 +41,7 @@ function Dashboard(props: { moods: moodApiType[] | undefined; isLoading: boolean
                             setSelectedDate={setSelectedDate}
                         />
                     </Header>,
+                    <DashboardTitle title={props.title} />,
                     <DayMoods
                         todayParsedDate={todayParsedDate}
                         key="day-moods"
@@ -55,6 +61,7 @@ function Dashboard(props: { moods: moodApiType[] | undefined; isLoading: boolean
                             setSelectedDate={setSelectedDate}
                         />
                     </Header>,
+                    <DashboardTitle title={props.title} />,
                     <WeekMoods
                         todayParsedDate={todayParsedDate}
                         key="week-moods"
@@ -72,6 +79,7 @@ function Dashboard(props: { moods: moodApiType[] | undefined; isLoading: boolean
                             setSelectedDate={setSelectedDate}
                         />
                     </Header>,
+                    <DashboardTitle title={props.title} />,
                     <MonthMoods
                         todayParsedDate={todayParsedDate}
                         key="month-moods"

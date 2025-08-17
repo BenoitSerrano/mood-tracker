@@ -21,8 +21,8 @@ function MonthMoods(props: {
                         const day = t(`shared.daysOfTheWeek.${dayOfTheWeekKey}`);
                         return (
                             <DayOfWeekCell key={day}>
-                                <DayOfWeekAbreviation variant="h2">{day}. </DayOfWeekAbreviation>
-                                <DayOfWeekInitial variant="h2">{day.charAt(0)}</DayOfWeekInitial>
+                                <DayOfWeekAbreviation variant="h3">{day}. </DayOfWeekAbreviation>
+                                <DayOfWeekInitial variant="h3">{day.charAt(0)}</DayOfWeekInitial>
                             </DayOfWeekCell>
                         );
                     })}

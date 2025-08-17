@@ -5,6 +5,9 @@ const englishText = {
         today: 'Today',
         yesterday: 'Yesterday',
     },
+    personalDashboard: {
+        title: 'My dashboard',
+    },
     shared: {
         timeMode: {
             day: 'Day',
@@ -70,6 +73,9 @@ const frenchText: TranslationTexts = {
     home: {
         today: "Aujourd'hui",
         yesterday: 'Hier',
+    },
+    personalDashboard: {
+        title: 'Mon tableau de bord',
     },
     shared: {
         timeMode: {

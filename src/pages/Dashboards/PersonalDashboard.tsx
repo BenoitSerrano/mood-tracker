@@ -1,15 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { Dashboard } from './components/Dashboard';
+import { useLanguage } from '../../lib/translation';
 
 function PersonalDashboard() {
     const moodsApiQuery = useQuery({
         queryFn: api.getMyMoods,
         queryKey: ['moods', 'me'],
-        refetchOnWindowFocus: true,
     });
+    const { t } = useLanguage();
+    const title = t('personalDashboard.title');
 
-    return <Dashboard moods={moodsApiQuery.data} isLoading={moodsApiQuery.isLoading} />;
+    return (
+        <Dashboard title={title} moods={moodsApiQuery.data} isLoading={moodsApiQuery.isLoading} />
+    );
 }
 
 export { PersonalDashboard };

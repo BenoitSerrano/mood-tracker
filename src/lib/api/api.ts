@@ -8,6 +8,7 @@ const api = {
     ping,
     createUser,
     login,
+    getUserInfo,
 };
 
 async function ping() {
@@ -41,6 +42,13 @@ async function login(params: { email: string; password: string }) {
         kind: 'data',
         data: params,
     });
+}
+
+async function getUserInfo(params: { userId: string }) {
+    return performApiCall<{ id: string; username: string; email: string }>(
+        `users/${params.userId}`,
+        'GET',
+    );
 }
 
 export { api };

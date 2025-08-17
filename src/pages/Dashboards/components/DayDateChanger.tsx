@@ -40,7 +40,7 @@ function DayDateChanger(props: {
                 </IconButton>
             </NavigationIconsContainer>
             <DateContainer>
-                <Typography variant="h1">{readableDate}</Typography>
+                <Typography variant="h2">{readableDate}</Typography>
             </DateContainer>
         </Container>
     );

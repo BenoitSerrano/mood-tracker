@@ -42,7 +42,7 @@ function MonthDateChanger(props: {
                 </IconButton>
             </NavigationIconsContainer>
             <DateContainer>
-                <Typography variant="h1">{title}</Typography>
+                <Typography variant="h2">{title}</Typography>
             </DateContainer>
         </Container>
     );
