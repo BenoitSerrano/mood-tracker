@@ -3,6 +3,7 @@ import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
 import { compareDates, convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
+import { useLanguage } from '../../../lib/translation';
 
 function DayMoods(props: {
     todayParsedDate: parsedDateType;
@@ -10,6 +11,7 @@ function DayMoods(props: {
     moods: moodApiType[] | undefined;
     isLoading: boolean;
 }) {
+    const { t } = useLanguage();
     const isDateInFuture = compareDates(props.selectedDate, props.todayParsedDate) > 0;
     return (
         <Container>
@@ -24,7 +26,7 @@ function DayMoods(props: {
                 return (
                     <Row key={dayMomentKey}>
                         <RowLabelContainer>
-                            <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
+                            <Typography>{t(`shared.dayMoment.${dayMomentKey}`)}</Typography>
                             <DayMomentIconComponent />
                         </RowLabelContainer>
                         <RowMoodContainer>

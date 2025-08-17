@@ -1,11 +1,13 @@
 import { Button, IconButton, styled } from '@mui/material';
 import { dayMomentKeys, dayMomentType } from '../../../types';
 import { DAY_MOMENTS } from '../../../lib/date';
+import { useLanguage } from '../../../lib/translation';
 
 function DayMomentPicker(props: {
     selectedDayMoment: dayMomentType | undefined;
     setSelectedDayMoment: (dayMoment: dayMomentType) => void;
 }) {
+    const { t } = useLanguage();
     const { selectedDayMoment, setSelectedDayMoment } = props;
     return (
         <ButtonsContainer>
@@ -22,7 +24,7 @@ function DayMomentPicker(props: {
                                 disableElevation={!isSelected}
                                 onClick={() => setSelectedDayMoment(dayMomentKey)}
                             >
-                                {DAY_MOMENTS[dayMomentKey].label}
+                                {t(`shared.dayMoment.${dayMomentKey}`)}
                             </Button>
                         </ButtonWithLabelContainer>
                         <IconButtonContainer isSelected={isSelected}>

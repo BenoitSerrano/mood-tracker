@@ -16,6 +16,7 @@ import { useAlert } from '../../lib/alert';
 import { convertDateToString, DAY_MOMENTS } from '../../lib/date';
 import { DayMomentPicker } from './components/DayMomentPicker';
 import { Logo } from '../../component/Logo';
+import { useLanguage } from '../../lib/translation';
 
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '70px';
@@ -23,6 +24,7 @@ const PROGRESS_HEIGHT = '5px';
 
 function Home() {
     const { displayAlert } = useAlert();
+    const { t } = useLanguage();
 
     const dates = computeDates();
 
@@ -101,7 +103,9 @@ function Home() {
                                         currentMood.minor === index)
                                 }
                             >
-                                <MinorEmotionLabel>{minorEmotion.label}</MinorEmotionLabel>
+                                <MinorEmotionLabel>
+                                    {t(`shared.emotions.${majorEmotionKey}.${minorEmotion.key}`)}
+                                </MinorEmotionLabel>
                             </MinorEmotionContainer>
                         ))}
                     </MajorEmotionContainer>
@@ -134,21 +138,21 @@ function Home() {
         setSelectedDate(selectedDate);
         setSelectedDayMoment(undefined);
     }
-}
 
-function computeDates() {
-    const todayDate = new Date();
-    const yesterdayDate = new Date(todayDate);
-    yesterdayDate.setDate(todayDate.getDate() - 1);
-    const today = {
-        date: convertDateToString(todayDate),
-        label: "Aujourd'hui",
-    };
-    const yesterday = {
-        date: convertDateToString(yesterdayDate),
-        label: 'Hier',
-    };
-    return { today, yesterday };
+    function computeDates() {
+        const todayDate = new Date();
+        const yesterdayDate = new Date(todayDate);
+        yesterdayDate.setDate(todayDate.getDate() - 1);
+        const today = {
+            date: convertDateToString(todayDate),
+            label: t('home.today'),
+        };
+        const yesterday = {
+            date: convertDateToString(yesterdayDate),
+            label: t('home.yesterday'),
+        };
+        return { today, yesterday };
+    }
 }
 
 function computeCurrentMood(

@@ -7,6 +7,7 @@ import { ThemeProvider, styled } from '@mui/material';
 import { theme } from './theme';
 import { AlertHandlerContextProvider } from './lib/alert';
 import './index.css';
+import { LanguageProvider } from './lib/translation';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const queryClient = new QueryClient();
@@ -14,15 +15,17 @@ const StyledBody = styled('div')(({ theme }) => ({ color: theme.palette.common.b
 
 root.render(
     <ThemeProvider theme={theme}>
-        <StyledBody>
-            <QueryClientProvider client={queryClient}>
-                <AlertHandlerContextProvider>
-                    <BrowserRouter>
-                        <Router />
-                    </BrowserRouter>
-                </AlertHandlerContextProvider>
-            </QueryClientProvider>
-        </StyledBody>
+        <LanguageProvider>
+            <StyledBody>
+                <QueryClientProvider client={queryClient}>
+                    <AlertHandlerContextProvider>
+                        <BrowserRouter>
+                            <Router />
+                        </BrowserRouter>
+                    </AlertHandlerContextProvider>
+                </QueryClientProvider>
+            </StyledBody>
+        </LanguageProvider>
     </ThemeProvider>,
 );
 

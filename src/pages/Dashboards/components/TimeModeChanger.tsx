@@ -1,10 +1,12 @@
 import { MenuItem, Select, styled, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { TIME_MODES, timeModeMapping, timeModeType } from '../constants';
+import { TIME_MODES, timeModeType } from '../constants';
+import { useLanguage } from '../../../lib/translation';
 
 function TimeModeChanger(props: {
     timeMode: timeModeType;
     setTimeMode: (timeMode: timeModeType) => void;
 }) {
+    const { t } = useLanguage();
     return (
         <>
             <ToggleButtonGroupContainer>
@@ -16,7 +18,7 @@ function TimeModeChanger(props: {
                             selected={props.timeMode === timeMode}
                             onClick={() => props.setTimeMode(timeMode)}
                         >
-                            {timeModeMapping[timeMode]}
+                            {t(`shared.timeMode.${timeMode}`)}
                         </ToggleButton>
                     ))}
                 </ToggleButtonGroup>
@@ -29,7 +31,7 @@ function TimeModeChanger(props: {
                 >
                     {TIME_MODES.map((timeMode) => (
                         <MenuItem key={timeMode} value={timeMode}>
-                            {timeModeMapping[timeMode]}
+                            {t(`shared.timeMode.${timeMode}`)}
                         </MenuItem>
                     ))}
                 </Select>

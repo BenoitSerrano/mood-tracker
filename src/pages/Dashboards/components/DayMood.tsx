@@ -1,12 +1,14 @@
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import { Skeleton, styled, Typography } from '@mui/material';
 import { emotionMapping, moodApiType } from '../../../types';
+import { useLanguage } from '../../../lib/translation';
 
 function DayMomentMood(props: {
     mood: moodApiType | undefined;
     isLoading: boolean;
     shouldHideMoodLabelWhenSmallScreen?: boolean;
 }) {
+    const { t } = useLanguage();
     const { mood, isLoading } = props;
     if (isLoading) {
         return <StyledSkeleton />;
@@ -20,7 +22,7 @@ function DayMomentMood(props: {
             <MinorMood
                 shouldHideMoodLabelWhenSmallScreen={props.shouldHideMoodLabelWhenSmallScreen}
             >
-                {emotionMapping[mood.major][mood.minor].label}
+                {t(`shared.emotions.${mood.major}.${emotionMapping[mood.major][mood.minor].key}`)}
             </MinorMood>
         </MoodContainer>
     );

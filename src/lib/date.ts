@@ -10,52 +10,44 @@ function convertDateToString(date: Date): string {
     return `${year}-${month}-${day}`;
 }
 
-const MONTHS_ABREVIATIONS = [
-    'Janv.',
-    'Févr.',
-    'Mars',
-    'Avr.',
-    'Mai',
-    'Juin',
-    'Juil.',
-    'Août',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Déc.',
-];
-
-const MONTHS = [
-    'Janvier',
-    'Février',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juillet',
-    'Août',
-    'Septembre',
-    'Octobre',
-    'Novembre',
-    'Décembre',
-];
-
+const MONTH_KEYS = [
+    'january',
+    'february',
+    'march',
+    'april',
+    'may',
+    'june',
+    'july',
+    'august',
+    'september',
+    'october',
+    'november',
+    'december',
+] as const;
 const DAYS_OF_THE_WEEK = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
-function computeWeekTitle(week: parsedDateType[]) {
+function computeWeekTitle(week: parsedDateType[], t: (key: string) => string): string {
     if (week[0].month === week[week.length - 1].month) {
-        return `${MONTHS[week[0].month - 1]} ${week[0].year}`;
+        const monthKey = MONTH_KEYS[week[0].month - 1];
+        const month = t(`shared.months.${monthKey}.long`);
+
+        return `${month} ${week[0].year}`;
     }
 
     if (week[0].year === week[week.length - 1].year) {
-        return `${MONTHS_ABREVIATIONS[week[0].month - 1]} - ${
-            MONTHS_ABREVIATIONS[week[week.length - 1].month - 1]
-        } ${week[0].year}`;
+        const firstMonthKey = MONTH_KEYS[week[0].month - 1];
+        const secondMonthKey = MONTH_KEYS[week[week.length - 1].month - 1];
+        const firstMonth = t(`shared.months.${firstMonthKey}.short`);
+        const secondMonth = t(`shared.months.${secondMonthKey}.short`);
+        return `${firstMonth} - ${secondMonth} ${week[0].year}`;
     }
-
-    return `${MONTHS_ABREVIATIONS[week[0].month - 1]} ${week[0].year} - ${
-        MONTHS_ABREVIATIONS[week[week.length - 1].month - 1]
-    } ${week[week.length - 1].year}`;
+    const firstMonthKey = MONTH_KEYS[week[0].month - 1];
+    const secondMonthKey = MONTH_KEYS[week[week.length - 1].month - 1];
+    const firstMonth = t(`shared.months.${firstMonthKey}.short`);
+    const secondMonth = t(`shared.months.${secondMonthKey}.short`);
+    const firstYear = week[0].year;
+    const secondYear = week[week.length - 1].year;
+    return `${firstMonth} ${firstYear} - ${secondMonth} ${secondYear}`;
 }
 
 function compareDates(dateA: parsedDateType, dateB: parsedDateType): number {
@@ -67,8 +59,9 @@ function compareDates(dateA: parsedDateType, dateB: parsedDateType): number {
     }
     return dateA.dayOfMonth - dateB.dayOfMonth;
 }
-function computeMonthTitle(parsedDate: parsedDateType) {
-    const monthName = MONTHS[parsedDate.month - 1];
+function computeMonthTitle(parsedDate: parsedDateType, t: (key: string) => string): string {
+    const monthKey = MONTH_KEYS[parsedDate.month - 1];
+    const monthName = t(`shared.months.${monthKey}.long`);
     const year = parsedDate.year;
     return `${monthName} ${year}`;
 }
@@ -166,21 +159,18 @@ const DAY_MOMENTS = computeDayMoments();
 
 function computeDayMoments(): Record<
     dayMomentType,
-    { label: string; computer: (time: string) => boolean; iconComponent: React.ComponentType }
+    { computer: (time: string) => boolean; iconComponent: React.ComponentType }
 > {
     return {
         morning: {
-            label: 'Matin',
             iconComponent: FreeBreakfastOutlinedIcon,
             computer: (time: string) => time < '12:00',
         },
         afternoon: {
-            label: 'Après-midi',
             iconComponent: WbSunnyOutlinedIcon,
             computer: (time: string) => time >= '12:00' && time < '18:00',
         },
         evening: {
-            label: 'Soirée',
             iconComponent: NightlightOutlinedIcon,
             computer: (time: string) => time >= '18:00' && time < '24:00',
         },

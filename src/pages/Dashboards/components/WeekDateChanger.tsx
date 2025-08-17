@@ -4,13 +4,15 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { computeWeekTitle, modifyDateByDays } from '../../../lib/date';
 import { parsedDateType } from '../../../types';
 import { useEffect } from 'react';
+import { useLanguage } from '../../../lib/translation';
 
 function WeekDateChanger(props: {
     selectedDate: parsedDateType;
     setSelectedDate: (selectedDate: parsedDateType) => void;
     surroundingWeek: parsedDateType[];
 }) {
-    const title = computeWeekTitle(props.surroundingWeek);
+    const { t } = useLanguage();
+    const title = computeWeekTitle(props.surroundingWeek, t);
     const { selectedDate, setSelectedDate } = props;
     const { previousDate, nextDate } = computeNeighbouringDates(selectedDate);
 

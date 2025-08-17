@@ -8,6 +8,7 @@ import {
 } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
+import { useLanguage } from '../../../lib/translation';
 
 function WeekMoods(props: {
     surroundingWeek: parsedDateType[];
@@ -15,6 +16,7 @@ function WeekMoods(props: {
     todayParsedDate: parsedDateType;
     isLoading: boolean;
 }) {
+    const { t } = useLanguage();
     return (
         <Container>
             <Table>
@@ -34,7 +36,7 @@ function WeekMoods(props: {
                     return (
                         <Row key={dayMomentKey}>
                             <DayMomentCell>
-                                <Typography>{DAY_MOMENTS[dayMomentKey].label}</Typography>
+                                <Typography>{t(`shared.dayMoment.${dayMomentKey}`)}</Typography>
                                 <DayMomentIconComponent />
                             </DayMomentCell>
                             {props.surroundingWeek.map((date) => {

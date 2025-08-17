@@ -4,14 +4,16 @@ import {
     computeWeekTitle,
     getSurroundingMonth,
 } from './date';
+import { buildT } from './translation';
 
 describe('date', () => {
+    const t = buildT('fr');
     describe('computeWeekTitle', () => {
         it('should return the month if week contained entirely', () => {
             const date = convertDateToParsedDate(new Date('2025-08-11'));
             const week = getSurroundingWeek(date);
 
-            const title = computeWeekTitle(week);
+            const title = computeWeekTitle(week, t);
 
             expect(title).toBe('Août 2025');
         });
@@ -20,7 +22,7 @@ describe('date', () => {
             const date = convertDateToParsedDate(new Date('2025-08-03'));
             const week = getSurroundingWeek(date);
 
-            const title = computeWeekTitle(week);
+            const title = computeWeekTitle(week, t);
 
             expect(title).toBe('Juil. - Août 2025');
         });
@@ -29,7 +31,7 @@ describe('date', () => {
             const date = convertDateToParsedDate(new Date('2024-12-30'));
             const week = getSurroundingWeek(date);
 
-            const title = computeWeekTitle(week);
+            const title = computeWeekTitle(week, t);
 
             expect(title).toBe('Déc. 2024 - Janv. 2025');
         });

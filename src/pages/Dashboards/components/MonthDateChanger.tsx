@@ -4,13 +4,15 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { computeMonthTitle, modifyDateByMonths } from '../../../lib/date';
 import { parsedDateType } from '../../../types';
 import { useEffect } from 'react';
+import { useLanguage } from '../../../lib/translation';
 
 function MonthDateChanger(props: {
     selectedDate: parsedDateType;
     setSelectedDate: (selectedDate: parsedDateType) => void;
 }) {
+    const { t } = useLanguage();
     const { selectedDate, setSelectedDate } = props;
-    const title = computeMonthTitle(selectedDate);
+    const title = computeMonthTitle(selectedDate, t);
     const { previousDate, nextDate } = computeNeighbouringDates(selectedDate);
 
     useEffect(() => {
