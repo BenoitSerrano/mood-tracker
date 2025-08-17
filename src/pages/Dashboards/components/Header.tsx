@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 import { timeModeType } from '../constants';
 import { ReactNode, useEffect } from 'react';
 import { TimeModeChanger } from './TimeModeChanger';
+import { Logo } from '../../../component/Logo';
 
 const HEADER_HEIGHT = '70px';
 
@@ -32,7 +33,10 @@ function Header(props: {
     }, [setTimeMode]);
     return (
         <Container>
-            <LeftContainer>{props.children}</LeftContainer>
+            <LeftContainer>
+                <Logo />
+            </LeftContainer>
+            <MiddleContainer>{props.children}</MiddleContainer>
             <RightContainer>
                 <TimeModeChanger timeMode={props.timeMode} setTimeMode={props.setTimeMode} />
             </RightContainer>
@@ -47,9 +51,14 @@ const Container = styled('div')(() => ({
     alignItems: 'center',
     height: HEADER_HEIGHT,
 }));
-
 const LeftContainer = styled('div')(({ theme }) => ({
     display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+}));
+const MiddleContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
 }));

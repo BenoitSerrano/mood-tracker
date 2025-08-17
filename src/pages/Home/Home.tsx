@@ -15,6 +15,7 @@ import { useApiCall } from '../../lib/api/useApiCall';
 import { useAlert } from '../../lib/alert';
 import { convertDateToString, DAY_MOMENTS } from '../../lib/date';
 import { DayMomentPicker } from './components/DayMomentPicker';
+import { Logo } from '../../component/Logo';
 
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '70px';
@@ -59,6 +60,9 @@ function Home() {
     return (
         <Container>
             <Header>
+                <LogoContainer>
+                    <Logo />
+                </LogoContainer>
                 <DateSelect
                     variant="standard"
                     value={selectedDate}
@@ -174,6 +178,14 @@ function convertSelectedDateToString(selectedDate: selectedDateType): string {
     }
 }
 
+const LogoContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    justifyContent: 'center',
+    alignItems: 'center',
+}));
+
 const Header = styled('div')(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
@@ -196,7 +208,6 @@ const ProgressPlaceholder = styled('div')(({ theme }) => ({
 }));
 const DateSelect = styled(Select)(({ theme }) => ({
     flex: 1,
-    marginLeft: theme.spacing(2),
 }));
 
 const MajorEmotionsContainer = styled('div')(({ theme }) => ({
