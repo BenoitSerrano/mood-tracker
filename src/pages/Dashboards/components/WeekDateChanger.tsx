@@ -58,7 +58,7 @@ function computeNeighbouringDates(selectedDate: parsedDateType) {
 const Container = styled('div')(() => ({
     width: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     height: '100%',
 }));
