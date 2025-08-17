@@ -1,12 +1,4 @@
-import {
-    CircularProgress,
-    FormControlLabel,
-    MenuItem,
-    Radio,
-    Select,
-    styled,
-    Typography,
-} from '@mui/material';
+import { CircularProgress, MenuItem, Select, styled, Typography } from '@mui/material';
 import { useState } from 'react';
 import {
     dayMomentKeys,
@@ -22,6 +14,7 @@ import { api } from '../../lib/api';
 import { useApiCall } from '../../lib/api/useApiCall';
 import { useAlert } from '../../lib/alert';
 import { convertDateToString, DAY_MOMENTS } from '../../lib/date';
+import { DayMomentPicker } from './components/DayMomentPicker';
 
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '100px';
@@ -82,20 +75,10 @@ function Home() {
                         </MenuItem>
                     ))}
                 </DateSelect>
-                <RadioButtonsContainer>
-                    {dayMomentKeys.map((dayMomentKey) => (
-                        <FormControlLabel
-                            key={dayMomentKey}
-                            control={
-                                <Radio
-                                    checked={selectedDayMoment === dayMomentKey}
-                                    onChange={() => setSelectedDayMoment(dayMomentKey)}
-                                />
-                            }
-                            label={DAY_MOMENTS[dayMomentKey].label}
-                        />
-                    ))}
-                </RadioButtonsContainer>
+                <DayMomentPicker
+                    selectedDayMoment={selectedDayMoment}
+                    setSelectedDayMoment={setSelectedDayMoment}
+                />
             </Header>
             <MajorEmotionsContainer>
                 {majorEmotions.map((majorEmotionKey) => (
@@ -216,17 +199,6 @@ const DateSelect = styled(Select)(({ theme }) => ({
     padding: theme.spacing(2),
 }));
 
-const RadioButtonsContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        ' .MuiRadio-root': {
-            paddingTop: 0,
-            paddingBottom: 0,
-        },
-    },
-}));
 const MajorEmotionsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     flex: 1,
