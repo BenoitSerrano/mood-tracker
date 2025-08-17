@@ -55,6 +55,7 @@ const LeftContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: theme.spacing(1),
 }));
 const MiddleContainer = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -69,6 +70,7 @@ const RightContainer = styled('div')(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
         flex: 1,
     },
+    marginRight: theme.spacing(1),
     paddingLeft: theme.spacing(2),
 }));
 
