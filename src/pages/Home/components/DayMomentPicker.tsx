@@ -1,4 +1,4 @@
-import { Button, styled } from '@mui/material';
+import { Button, IconButton, styled } from '@mui/material';
 import { dayMomentKeys, dayMomentType } from '../../../types';
 import { DAY_MOMENTS } from '../../../lib/date';
 
@@ -15,14 +15,24 @@ function DayMomentPicker(props: {
 
                 return (
                     <ButtonContainer key={`${dayMomentKey}-button-container`}>
-                        <Button
-                            startIcon={<IconComponent />}
-                            variant={isSelected ? 'contained' : 'outlined'}
-                            disableElevation={!isSelected}
-                            onClick={() => setSelectedDayMoment(dayMomentKey)}
-                        >
-                            {DAY_MOMENTS[dayMomentKey].label}
-                        </Button>
+                        <ButtonWithLabelContainer>
+                            <Button
+                                startIcon={<IconComponent />}
+                                variant={isSelected ? 'contained' : 'outlined'}
+                                disableElevation={!isSelected}
+                                onClick={() => setSelectedDayMoment(dayMomentKey)}
+                            >
+                                {DAY_MOMENTS[dayMomentKey].label}
+                            </Button>
+                        </ButtonWithLabelContainer>
+                        <IconButtonContainer isSelected={isSelected}>
+                            <IconButton
+                                color={isSelected ? 'primary' : 'default'}
+                                onClick={() => setSelectedDayMoment(dayMomentKey)}
+                            >
+                                <IconComponent />
+                            </IconButton>
+                        </IconButtonContainer>
                     </ButtonContainer>
                 );
             })}
@@ -32,6 +42,22 @@ function DayMomentPicker(props: {
 
 const ButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {},
+    [theme.breakpoints.up('sm')]: {
+        flexDirection: 'row',
+    },
+}));
+const ButtonWithLabelContainer = styled('div')(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+        display: 'none',
+    },
+}));
+const IconButtonContainer = styled('div')<{ isSelected: boolean }>(({ theme, isSelected }) => ({
+    borderRadius: theme.shape.borderRadius,
+    border: `1px solid ${isSelected ? theme.palette.primary.main : 'transparent'}`,
+    [theme.breakpoints.up('sm')]: {
+        display: 'none',
+    },
 }));
 const ButtonContainer = styled('div')(({ theme }) => ({
     padding: theme.spacing(1),
