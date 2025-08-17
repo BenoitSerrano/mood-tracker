@@ -12,7 +12,12 @@ function PersonalDashboard() {
     const title = t('personalDashboard.title');
 
     return (
-        <Dashboard title={title} moods={moodsApiQuery.data} isLoading={moodsApiQuery.isLoading} />
+        <Dashboard
+            shouldDisplayGoHomeButton
+            title={title}
+            moods={moodsApiQuery.data}
+            isLoading={moodsApiQuery.isLoading}
+        />
     );
 }
 

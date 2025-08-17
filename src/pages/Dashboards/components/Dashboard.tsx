@@ -19,6 +19,7 @@ import { DashboardTitle } from './DashboardTitle';
 function Dashboard(props: {
     moods: moodApiType[] | undefined;
     isLoading: boolean;
+    shouldDisplayGoHomeButton?: boolean;
     title: string | undefined;
 }) {
     const todayParsedDate = convertDateToParsedDate(new Date());
@@ -35,7 +36,12 @@ function Dashboard(props: {
         switch (timeMode) {
             case 'day':
                 return [
-                    <Header key="header-day" setTimeMode={setTimeMode} timeMode={timeMode}>
+                    <Header
+                        shouldDisplayGoHomeButton={!!props.shouldDisplayGoHomeButton}
+                        key="header-day"
+                        setTimeMode={setTimeMode}
+                        timeMode={timeMode}
+                    >
                         <DayDateChanger
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
@@ -54,7 +60,12 @@ function Dashboard(props: {
                 const surroundingWeek = getSurroundingWeek(selectedDate);
 
                 return [
-                    <Header key="header-week" setTimeMode={setTimeMode} timeMode={timeMode}>
+                    <Header
+                        key="header-week"
+                        setTimeMode={setTimeMode}
+                        timeMode={timeMode}
+                        shouldDisplayGoHomeButton={!!props.shouldDisplayGoHomeButton}
+                    >
                         <WeekDateChanger
                             surroundingWeek={surroundingWeek}
                             selectedDate={selectedDate}
@@ -73,7 +84,12 @@ function Dashboard(props: {
             case 'month':
                 const surroundingMonth = getSurroundingMonth(selectedDate);
                 return [
-                    <Header key="header-month" setTimeMode={setTimeMode} timeMode={timeMode}>
+                    <Header
+                        shouldDisplayGoHomeButton={!!props.shouldDisplayGoHomeButton}
+                        key="header-month"
+                        setTimeMode={setTimeMode}
+                        timeMode={timeMode}
+                    >
                         <MonthDateChanger
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}

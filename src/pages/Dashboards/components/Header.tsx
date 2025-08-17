@@ -3,10 +3,12 @@ import { timeModeType } from '../constants';
 import { ReactNode, useEffect } from 'react';
 import { TimeModeChanger } from './TimeModeChanger';
 import { Logo } from '../../../components/Logo';
+import { HomeButton } from './HomeButton';
 
 const HEADER_HEIGHT = '70px';
 
 function Header(props: {
+    shouldDisplayGoHomeButton: boolean;
     timeMode: timeModeType;
     setTimeMode: (timeMode: timeModeType) => void;
     children: ReactNode;
@@ -35,6 +37,7 @@ function Header(props: {
         <Container>
             <LeftContainer>
                 <Logo />
+                {props.shouldDisplayGoHomeButton && <HomeButton />}
             </LeftContainer>
             <MiddleContainer>{props.children}</MiddleContainer>
             <RightContainer>

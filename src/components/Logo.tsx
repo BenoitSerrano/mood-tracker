@@ -1,7 +1,8 @@
 import { styled } from '@mui/material';
 
 const BUCKET_URL = `https://mood-tracker.s3.sbg.io.cloud.ovh.net`;
-const LOGO_CONTAINER_SIZE = '50px';
+const LARGE_LOGO_CONTAINER_SIZE = '50px';
+const SMALL_LOGO_CONTAINER_SIZE = '25px';
 
 function Logo() {
     return (
@@ -11,13 +12,19 @@ function Logo() {
     );
 }
 
-const Container = styled('div')({
+const Container = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    height: LOGO_CONTAINER_SIZE,
-    width: LOGO_CONTAINER_SIZE,
+    [theme.breakpoints.up('sm')]: {
+        height: LARGE_LOGO_CONTAINER_SIZE,
+        width: LARGE_LOGO_CONTAINER_SIZE,
+    },
+    [theme.breakpoints.down('sm')]: {
+        height: SMALL_LOGO_CONTAINER_SIZE,
+        width: SMALL_LOGO_CONTAINER_SIZE,
+    },
     justifyContent: 'center',
-});
+}));
 
 const Image = styled('img')({
     height: '100%',

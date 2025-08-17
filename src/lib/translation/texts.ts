@@ -2,6 +2,7 @@ import { availableLanguageType } from './constants';
 
 const englishText = {
     home: {
+        dashboardButtonLabel: 'Go to dashboard',
         today: 'Today',
         yesterday: 'Yesterday',
     },
@@ -81,6 +82,7 @@ type TranslationTexts = typeof englishText;
 
 const frenchText: TranslationTexts = {
     home: {
+        dashboardButtonLabel: 'Aller au tableau de bord',
         today: "Aujourd'hui",
         yesterday: 'Hier',
     },

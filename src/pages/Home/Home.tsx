@@ -17,6 +17,7 @@ import { convertDateToString, DAY_MOMENTS } from '../../lib/date';
 import { DayMomentPicker } from './components/DayMomentPicker';
 import { Logo } from '../../components/Logo';
 import { useLanguage } from '../../lib/translation';
+import { DashboardButton } from './components/DashboardButton';
 
 type selectedDateType = 'yesterday' | 'today';
 const TIME_SELECTION_HEIGHT = '70px';
@@ -65,6 +66,7 @@ function Home() {
                 <LogoContainer>
                     <Logo />
                 </LogoContainer>
+                <DashboardButton />
                 <DateSelect
                     variant="standard"
                     value={selectedDate}
@@ -184,7 +186,7 @@ function convertSelectedDateToString(selectedDate: selectedDateType): string {
 
 const LogoContainer = styled('div')(({ theme }) => ({
     display: 'flex',
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(1),
     marginRight: theme.spacing(2),
     justifyContent: 'center',
     alignItems: 'center',
