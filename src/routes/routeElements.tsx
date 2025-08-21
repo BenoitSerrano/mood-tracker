@@ -3,6 +3,7 @@ import { Home } from '../pages/Home';
 import { SignUp, SignIn } from '../pages/Authentication';
 import { ROUTE_KEYS } from './routeKeys';
 import { Landing } from '../pages/Landing';
+import { Root } from '../pages/Root';
 
 const ROUTE_ELEMENTS: Record<
     (typeof ROUTE_KEYS)[number],
@@ -12,6 +13,7 @@ const ROUTE_ELEMENTS: Record<
     HOME: { element: <Home />, shouldBeAuthenticated: true },
     PERSONAL_DASHBOARD: { element: <PersonalDashboard />, shouldBeAuthenticated: true },
     USER_DASHBOARD: { element: <UserDashboard />, shouldBeAuthenticated: false },
+    ROOT: { element: <Root />, shouldBeAuthenticated: false },
     SIGN_UP: { element: <SignUp />, shouldBeAuthenticated: false },
     SIGN_IN: { element: <SignIn />, shouldBeAuthenticated: false },
 };
