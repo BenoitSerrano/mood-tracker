@@ -4,6 +4,7 @@ import { emotionMapping, moodApiType } from '../../../types';
 import { useLanguage } from '../../../lib/translation';
 
 function DayMomentMood(props: {
+    onClick?: () => void;
     mood: moodApiType | undefined;
     isLoading: boolean;
     shouldHideMoodLabelWhenSmallScreen?: boolean;
@@ -18,12 +19,12 @@ function DayMomentMood(props: {
     }
 
     return (
-        <MoodContainer color={emotionMapping[mood.major][mood.minor].color}>
-            <MinorMood
+        <MoodContainer onClick={props.onClick} color={emotionMapping[mood.major][mood.minor].color}>
+            <MinorMoodLabel
                 shouldHideMoodLabelWhenSmallScreen={props.shouldHideMoodLabelWhenSmallScreen}
             >
                 {t(`shared.emotions.${mood.major}.${emotionMapping[mood.major][mood.minor].key}`)}
-            </MinorMood>
+            </MinorMoodLabel>
         </MoodContainer>
     );
 }
@@ -60,13 +61,13 @@ const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
     width: '100%',
 }));
 
-const MinorMood = styled(Typography)<{ shouldHideMoodLabelWhenSmallScreen: boolean | undefined }>(
-    ({ theme, shouldHideMoodLabelWhenSmallScreen }) => ({
-        color: theme.palette.common.black,
-        [theme.breakpoints.down('sm')]: {
-            display: shouldHideMoodLabelWhenSmallScreen ? 'none' : undefined,
-        },
-    }),
-);
+const MinorMoodLabel = styled(Typography)<{
+    shouldHideMoodLabelWhenSmallScreen: boolean | undefined;
+}>(({ theme, shouldHideMoodLabelWhenSmallScreen }) => ({
+    color: theme.palette.common.black,
+    [theme.breakpoints.down('sm')]: {
+        display: shouldHideMoodLabelWhenSmallScreen ? 'none' : undefined,
+    },
+}));
 
 export { DayMomentMood };

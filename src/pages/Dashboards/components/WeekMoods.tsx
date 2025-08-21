@@ -9,6 +9,8 @@ import {
 import { DayMomentMood } from './DayMood';
 import { HEADER_HEIGHT } from './Header';
 import { useLanguage } from '../../../lib/translation';
+import { MoodDetailDialog } from './MoodDetailDialog';
+import { useState } from 'react';
 
 function WeekMoods(props: {
     surroundingWeek: parsedDateType[];
@@ -17,6 +19,8 @@ function WeekMoods(props: {
     isLoading: boolean;
 }) {
     const { t } = useLanguage();
+    const [touchedMood, setTouchedMood] = useState<moodApiType | undefined>(undefined);
+
     return (
         <Container>
             <Table>
@@ -64,6 +68,7 @@ function WeekMoods(props: {
                                 return (
                                     <Cell key={`${dayMomentKey}-${date.dayOfMonth}`}>
                                         <DayMomentMood
+                                            onClick={() => setTouchedMood(mood)}
                                             shouldHideMoodLabelWhenSmallScreen
                                             isLoading={props.isLoading}
                                             mood={mood}
@@ -75,6 +80,7 @@ function WeekMoods(props: {
                     );
                 })}
             </Table>
+            <MoodDetailDialog touchedMood={touchedMood} onClose={() => setTouchedMood(undefined)} />
         </Container>
     );
 }

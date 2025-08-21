@@ -47,7 +47,7 @@ function Dashboard(props: {
                             setSelectedDate={setSelectedDate}
                         />
                     </Header>,
-                    <DashboardTitle title={props.title} />,
+                    <DashboardTitle key="dashboard-title" title={props.title} />,
                     <DayMoods
                         todayParsedDate={todayParsedDate}
                         key="day-moods"
@@ -72,7 +72,7 @@ function Dashboard(props: {
                             setSelectedDate={setSelectedDate}
                         />
                     </Header>,
-                    <DashboardTitle title={props.title} />,
+                    <DashboardTitle key="dashboard-title" title={props.title} />,
                     <WeekMoods
                         todayParsedDate={todayParsedDate}
                         key="week-moods"
@@ -95,7 +95,7 @@ function Dashboard(props: {
                             setSelectedDate={setSelectedDate}
                         />
                     </Header>,
-                    <DashboardTitle title={props.title} />,
+                    <DashboardTitle key="dashboard-title" title={props.title} />,
                     <MonthMoods
                         todayParsedDate={todayParsedDate}
                         key="month-moods"

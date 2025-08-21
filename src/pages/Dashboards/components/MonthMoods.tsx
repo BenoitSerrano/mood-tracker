@@ -4,6 +4,8 @@ import { HEADER_HEIGHT } from './Header';
 import { compareDates, convertParsedDateToDateString, daysOfTheWeekKeys } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { useLanguage } from '../../../lib/translation';
+import { MoodDetailDialog } from './MoodDetailDialog';
+import { useState } from 'react';
 
 function MonthMoods(props: {
     todayParsedDate: parsedDateType;
@@ -13,6 +15,7 @@ function MonthMoods(props: {
     selectedDate: parsedDateType;
 }) {
     const { t } = useLanguage();
+    const [touchedMood, setTouchedMood] = useState<moodApiType | undefined>(undefined);
     return (
         <Container>
             <Table>
@@ -61,6 +64,7 @@ function MonthMoods(props: {
                                                 key={`${dayMomentKey}-${parsedDate.dayOfMonth}`}
                                             >
                                                 <DayMomentMood
+                                                    onClick={() => setTouchedMood(mood)}
                                                     shouldHideMoodLabelWhenSmallScreen
                                                     isLoading={props.isLoading}
                                                     mood={mood}
@@ -74,6 +78,7 @@ function MonthMoods(props: {
                     </Row>
                 ))}
             </Table>
+            <MoodDetailDialog touchedMood={touchedMood} onClose={() => setTouchedMood(undefined)} />
         </Container>
     );
 }
