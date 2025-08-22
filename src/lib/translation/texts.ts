@@ -20,6 +20,11 @@ const englishText = {
         },
     },
     shared: {
+        menu: {
+            home: 'Home',
+            dashboard: 'Dashboard',
+            friends: 'Friends',
+        },
         timeMode: {
             day: 'Day',
             week: 'Week',
@@ -100,6 +105,11 @@ const frenchText: TranslationTexts = {
         },
     },
     shared: {
+        menu: {
+            home: 'Accueil',
+            dashboard: 'Tableau de bord',
+            friends: 'Amis',
+        },
         timeMode: {
             day: 'Jour',
             week: 'Semaine',
