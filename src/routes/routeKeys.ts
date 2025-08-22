@@ -6,5 +6,6 @@ const ROUTE_KEYS = [
     'SIGN_UP',
     'SIGN_IN',
     'ROOT',
+    'FRIENDS',
 ] as const;
 export { ROUTE_KEYS };

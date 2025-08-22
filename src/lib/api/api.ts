@@ -1,4 +1,4 @@
-import { moodApiType, moodDtoType } from '../../types';
+import { friendWithLastMoodType, moodApiType, moodDtoType } from '../../types';
 import { performApiCall } from './utils';
 
 const api = {
@@ -9,6 +9,7 @@ const api = {
     createUser,
     login,
     getUserInfo,
+    getFriendsWithLastMood,
 };
 
 async function ping() {
@@ -49,6 +50,9 @@ async function getUserInfo(params: { userId: string }) {
         `users/${params.userId}`,
         'GET',
     );
+}
+async function getFriendsWithLastMood() {
+    return performApiCall<friendWithLastMoodType[]>('friends/with-last-mood', 'GET');
 }
 
 export { api };

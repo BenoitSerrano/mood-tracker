@@ -7,6 +7,7 @@ const ROUTE_PATHS: Record<(typeof ROUTE_KEYS)[number], { path: string }> = {
     USER_DASHBOARD: { path: '/dashboard/:userId' },
     SIGN_UP: { path: '/sign-up' },
     SIGN_IN: { path: '/sign-in' },
+    FRIENDS: { path: '/friends' },
     ROOT: { path: '/' },
 };
 
