@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
+import { styled } from '@mui/material';
+import { Header } from '../../components/Header';
 
 function Friends() {
     const friendsWithLastMoodQuery = useQuery({
@@ -7,7 +9,14 @@ function Friends() {
         queryKey: ['friends', 'with-last-mood'],
         refetchOnWindowFocus: true,
     });
-    return <pre>{JSON.stringify(friendsWithLastMoodQuery?.data)}</pre>;
+    return (
+        <Container>
+            <Header title="Mes amis" />
+            {JSON.stringify(friendsWithLastMoodQuery?.data)}
+        </Container>
+    );
 }
+
+const Container = styled('div')(({ theme }) => ({}));
 
 export { Friends };

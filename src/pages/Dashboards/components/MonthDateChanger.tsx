@@ -33,6 +33,9 @@ function MonthDateChanger(props: {
     }, [setSelectedDate, nextDate, previousDate]);
     return (
         <Container>
+            <DateContainer>
+                <Typography variant="h2">{title}</Typography>
+            </DateContainer>
             <NavigationIconsContainer>
                 <IconButton onClick={() => setSelectedDate(previousDate)}>
                     <ArrowBackIosNewIcon />
@@ -41,9 +44,6 @@ function MonthDateChanger(props: {
                     <ArrowForwardIosIcon />
                 </IconButton>
             </NavigationIconsContainer>
-            <DateContainer>
-                <Typography variant="h2">{title}</Typography>
-            </DateContainer>
         </Container>
     );
 }

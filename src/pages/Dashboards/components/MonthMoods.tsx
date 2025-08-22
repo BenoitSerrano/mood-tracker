@@ -1,11 +1,11 @@
 import { styled, Typography } from '@mui/material';
 import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
-import { HEADER_HEIGHT } from './Header';
 import { compareDates, convertParsedDateToDateString, daysOfTheWeekKeys } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
 import { useLanguage } from '../../../lib/translation';
 import { MoodDetailDialog } from './MoodDetailDialog';
 import { useState } from 'react';
+import { HEADER_HEIGHT } from '../../../components/Header';
 
 function MonthMoods(props: {
     todayParsedDate: parsedDateType;

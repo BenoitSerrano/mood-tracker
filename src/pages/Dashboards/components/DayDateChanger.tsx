@@ -31,6 +31,9 @@ function DayDateChanger(props: {
 
     return (
         <Container>
+            <DateContainer>
+                <Typography variant="h2">{readableDate}</Typography>
+            </DateContainer>
             <NavigationIconsContainer>
                 <IconButton onClick={() => setSelectedDate(previousDate)}>
                     <ArrowBackIosNewIcon />
@@ -39,9 +42,6 @@ function DayDateChanger(props: {
                     <ArrowForwardIosIcon />
                 </IconButton>
             </NavigationIconsContainer>
-            <DateContainer>
-                <Typography variant="h2">{readableDate}</Typography>
-            </DateContainer>
         </Container>
     );
 }

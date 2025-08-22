@@ -34,6 +34,9 @@ function WeekDateChanger(props: {
     }, [setSelectedDate, nextDate, previousDate]);
     return (
         <Container>
+            <DateContainer>
+                <Typography variant="h2">{title}</Typography>
+            </DateContainer>
             <NavigationIconsContainer>
                 <IconButton onClick={() => setSelectedDate(previousDate)}>
                     <ArrowBackIosNewIcon />
@@ -42,9 +45,6 @@ function WeekDateChanger(props: {
                     <ArrowForwardIosIcon />
                 </IconButton>
             </NavigationIconsContainer>
-            <DateContainer>
-                <Typography variant="h2">{title}</Typography>
-            </DateContainer>
         </Container>
     );
 }

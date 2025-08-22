@@ -7,10 +7,10 @@ import {
     daysOfTheWeekKeys,
 } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
-import { HEADER_HEIGHT } from './Header';
 import { useLanguage } from '../../../lib/translation';
 import { MoodDetailDialog } from './MoodDetailDialog';
 import { useState } from 'react';
+import { HEADER_HEIGHT } from '../../../components/Header';
 
 function WeekMoods(props: {
     surroundingWeek: parsedDateType[];

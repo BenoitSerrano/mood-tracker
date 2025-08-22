@@ -2,8 +2,8 @@ import { styled, Typography } from '@mui/material';
 import { dayMomentKeys, moodApiType, parsedDateType } from '../../../types';
 import { compareDates, convertParsedDateToDateString, DAY_MOMENTS } from '../../../lib/date';
 import { DayMomentMood } from './DayMood';
-import { HEADER_HEIGHT } from './Header';
 import { useLanguage } from '../../../lib/translation';
+import { HEADER_HEIGHT } from '../../../components/Header';
 
 function DayMoods(props: {
     todayParsedDate: parsedDateType;

@@ -7,14 +7,13 @@ import {
 } from '../../../lib/date';
 import { timeModeType } from '../constants';
 import { DayDateChanger } from './DayDateChanger';
-import { Header } from './Header';
+import { DashboardHeader } from './DashboardHeader';
 import { DayMoods } from './DayMoods';
 import { WeekDateChanger } from './WeekDateChanger';
 import { WeekMoods } from './WeekMoods';
 import { MonthDateChanger } from './MonthDateChanger';
 import { MonthMoods } from './MonthMoods';
 import { moodApiType } from '../../../types';
-import { DashboardTitle } from './DashboardTitle';
 
 function Dashboard(props: {
     moods: moodApiType[] | undefined;
@@ -36,18 +35,12 @@ function Dashboard(props: {
         switch (timeMode) {
             case 'day':
                 return [
-                    <Header
-                        shouldDisplayGoHomeButton={!!props.shouldDisplayGoHomeButton}
-                        key="header-day"
-                        setTimeMode={setTimeMode}
-                        timeMode={timeMode}
-                    >
+                    <DashboardHeader key="header-day" setTimeMode={setTimeMode} timeMode={timeMode}>
                         <DayDateChanger
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                         />
-                    </Header>,
-                    <DashboardTitle key="dashboard-title" title={props.title} />,
+                    </DashboardHeader>,
                     <DayMoods
                         todayParsedDate={todayParsedDate}
                         key="day-moods"
@@ -60,19 +53,17 @@ function Dashboard(props: {
                 const surroundingWeek = getSurroundingWeek(selectedDate);
 
                 return [
-                    <Header
+                    <DashboardHeader
                         key="header-week"
                         setTimeMode={setTimeMode}
                         timeMode={timeMode}
-                        shouldDisplayGoHomeButton={!!props.shouldDisplayGoHomeButton}
                     >
                         <WeekDateChanger
                             surroundingWeek={surroundingWeek}
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                         />
-                    </Header>,
-                    <DashboardTitle key="dashboard-title" title={props.title} />,
+                    </DashboardHeader>,
                     <WeekMoods
                         todayParsedDate={todayParsedDate}
                         key="week-moods"
@@ -84,8 +75,7 @@ function Dashboard(props: {
             case 'month':
                 const surroundingMonth = getSurroundingMonth(selectedDate);
                 return [
-                    <Header
-                        shouldDisplayGoHomeButton={!!props.shouldDisplayGoHomeButton}
+                    <DashboardHeader
                         key="header-month"
                         setTimeMode={setTimeMode}
                         timeMode={timeMode}
@@ -94,8 +84,7 @@ function Dashboard(props: {
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                         />
-                    </Header>,
-                    <DashboardTitle key="dashboard-title" title={props.title} />,
+                    </DashboardHeader>,
                     <MonthMoods
                         todayParsedDate={todayParsedDate}
                         key="month-moods"
@@ -117,15 +106,16 @@ const Container = styled('div')(({ theme }) => ({
     justifyContent: 'center',
     height: '100vh',
     width: '100vw',
+    flex: 1,
 }));
 
 const ContentContainer = styled('div')(({ theme }) => ({
-    height: '100%',
-    [theme.breakpoints.down('sm')]: {
-        width: '100vw',
-    },
+    // height: '100%',
+    width: '100vw',
+    flex: 1,
+    [theme.breakpoints.down('sm')]: {},
     [theme.breakpoints.up('sm')]: {
-        width: '60vw',
+        // width: '60vw',
     },
 }));
 export { Dashboard };

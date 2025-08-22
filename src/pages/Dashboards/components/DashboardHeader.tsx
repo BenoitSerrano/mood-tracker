@@ -2,13 +2,9 @@ import { styled } from '@mui/material';
 import { timeModeType } from '../constants';
 import { ReactNode, useEffect } from 'react';
 import { TimeModeChanger } from './TimeModeChanger';
-import { Logo } from '../../../components/Logo';
-import { HomeButton } from './HomeButton';
+import { Header } from '../../../components/Header';
 
-const HEADER_HEIGHT = '70px';
-
-function Header(props: {
-    shouldDisplayGoHomeButton: boolean;
+function DashboardHeader(props: {
     timeMode: timeModeType;
     setTimeMode: (timeMode: timeModeType) => void;
     children: ReactNode;
@@ -34,40 +30,16 @@ function Header(props: {
         }
     }, [setTimeMode]);
     return (
-        <Container>
-            <LeftContainer>
-                <Logo />
-                {props.shouldDisplayGoHomeButton && <HomeButton />}
-            </LeftContainer>
-            <MiddleContainer>{props.children}</MiddleContainer>
-            <RightContainer>
+        <Header title="Tableau de bord">
+            <ContentContainer>
+                {props.children}
                 <TimeModeChanger timeMode={props.timeMode} setTimeMode={props.setTimeMode} />
-            </RightContainer>
-        </Container>
+            </ContentContainer>
+        </Header>
     );
 }
 
-const Container = styled('div')(() => ({
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: HEADER_HEIGHT,
-}));
-const LeftContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: theme.spacing(1),
-}));
-const MiddleContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-}));
-
-const RightContainer = styled('div')(({ theme }) => ({
+const ContentContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
@@ -77,4 +49,4 @@ const RightContainer = styled('div')(({ theme }) => ({
     paddingLeft: theme.spacing(2),
 }));
 
-export { Header, HEADER_HEIGHT };
+export { DashboardHeader };
