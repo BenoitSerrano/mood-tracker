@@ -18,7 +18,6 @@ import { moodApiType } from '../../../types';
 function Dashboard(props: {
     moods: moodApiType[] | undefined;
     isLoading: boolean;
-    shouldDisplayGoHomeButton?: boolean;
     title: string | undefined;
 }) {
     const todayParsedDate = convertDateToParsedDate(new Date());

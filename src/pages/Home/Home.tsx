@@ -15,12 +15,10 @@ import { useApiCall } from '../../lib/api/useApiCall';
 import { useAlert } from '../../lib/alert';
 import { convertDateToString, DAY_MOMENTS } from '../../lib/date';
 import { DayMomentPicker } from './components/DayMomentPicker';
-import { Logo } from '../../components/Logo';
 import { useLanguage } from '../../lib/translation';
-import { DashboardButton } from './components/DashboardButton';
+import { Header } from '../../components/Header';
 
 type selectedDateType = 'yesterday' | 'today';
-const TIME_SELECTION_HEIGHT = '70px';
 const PROGRESS_HEIGHT = '5px';
 
 function Home() {
@@ -62,11 +60,7 @@ function Home() {
     const isLoading = moodsApiQuery.isPending || createMoodApiCall.isLoading;
     return (
         <Container>
-            <Header>
-                <LogoContainer>
-                    <Logo />
-                </LogoContainer>
-                <DashboardButton />
+            <Header title="Accueil">
                 <DateSelect
                     variant="standard"
                     value={selectedDate}
@@ -184,22 +178,6 @@ function convertSelectedDateToString(selectedDate: selectedDateType): string {
     }
 }
 
-const LogoContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(2),
-    justifyContent: 'center',
-    alignItems: 'center',
-}));
-
-const Header = styled('div')(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: TIME_SELECTION_HEIGHT,
-    gap: theme.spacing(2),
-}));
 const LoaderContainer = styled('div')(({ theme }) => ({
     height: PROGRESS_HEIGHT,
     padding: theme.spacing(1),

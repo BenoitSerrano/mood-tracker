@@ -5,7 +5,7 @@ const defaultPalette: PaletteOptions = {
         main: '#f3ab1d',
     },
     secondary: {
-        main: '#31828c',
+        main: '#225a65',
     },
     common: { black: '#151204', white: '#FEFDF8' },
     background: { default: '#FEFDF8', paper: '#FFFFFF' },

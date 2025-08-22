@@ -19,6 +19,7 @@ function DayMomentPicker(props: {
                     <ButtonContainer key={`${dayMomentKey}-button-container`}>
                         <ButtonWithLabelContainer>
                             <Button
+                                color="secondary"
                                 startIcon={<IconComponent />}
                                 variant={isSelected ? 'contained' : 'outlined'}
                                 disableElevation={!isSelected}
@@ -29,7 +30,7 @@ function DayMomentPicker(props: {
                         </ButtonWithLabelContainer>
                         <IconButtonContainer isSelected={isSelected}>
                             <IconButton
-                                color={isSelected ? 'primary' : 'default'}
+                                color={isSelected ? 'secondary' : 'inherit'}
                                 onClick={() => setSelectedDayMoment(dayMomentKey)}
                             >
                                 <IconComponent />
@@ -56,7 +57,7 @@ const ButtonWithLabelContainer = styled('div')(({ theme }) => ({
 }));
 const IconButtonContainer = styled('div')<{ isSelected: boolean }>(({ theme, isSelected }) => ({
     borderRadius: theme.shape.borderRadius,
-    border: `1px solid ${isSelected ? theme.palette.primary.main : 'transparent'}`,
+    border: `1px solid ${isSelected ? theme.palette.secondary.main : 'transparent'}`,
     [theme.breakpoints.up('sm')]: {
         display: 'none',
     },
