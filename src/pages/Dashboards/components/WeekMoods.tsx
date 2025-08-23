@@ -6,7 +6,7 @@ import {
     DAY_MOMENTS,
     daysOfTheWeekKeys,
 } from '../../../lib/date';
-import { DayMomentMood } from './DayMood';
+import { DayMomentMood } from '../../../components/DayMomentMood';
 import { useLanguage } from '../../../lib/translation';
 import { MoodDetailDialog } from './MoodDetailDialog';
 import { useState } from 'react';

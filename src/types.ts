@@ -8,7 +8,7 @@ type moodDtoType = {
 type friendWithLastMoodType = {
     id: string;
     username: string;
-    lastMood: moodApiType | null;
+    lastMood: moodApiType | undefined;
 };
 
 const dayMomentKeys = ['morning', 'afternoon', 'evening'] as const;

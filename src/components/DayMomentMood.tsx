@@ -1,7 +1,7 @@
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import { Skeleton, styled, Typography } from '@mui/material';
-import { emotionMapping, moodApiType } from '../../../types';
-import { useLanguage } from '../../../lib/translation';
+import { emotionMapping, moodApiType } from '../types';
+import { useLanguage } from '../lib/translation';
 
 function DayMomentMood(props: {
     onClick?: () => void;
