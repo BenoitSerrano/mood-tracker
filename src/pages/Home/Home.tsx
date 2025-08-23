@@ -47,7 +47,9 @@ function Home() {
             queryClient.invalidateQueries({ queryKey: ['moods'] });
             displayAlert({
                 variant: 'success',
-                text: 'Mood saved successfully!',
+                horizontal: 'center',
+                vertical: 'bottom',
+                text: t('home.moodSaved'),
             });
         },
     });

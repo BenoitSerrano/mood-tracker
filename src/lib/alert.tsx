@@ -7,6 +7,8 @@ type alertType = {
     variant: 'error' | 'success' | 'warning';
     text: string;
     autoHideDuration?: number | null;
+    vertical?: 'top' | 'bottom';
+    horizontal?: 'left' | 'center' | 'right';
 };
 
 const AlertHandlerContext = createContext<alertHandlerType>({
@@ -14,7 +16,7 @@ const AlertHandlerContext = createContext<alertHandlerType>({
 });
 
 function SlideTransition(props: SlideProps) {
-    return <Slide {...props} direction="down" />;
+    return <Slide {...props} />;
 }
 
 const DEFAULT_AUTO_HIDE_DURATION = 2500;
@@ -32,7 +34,10 @@ function AlertHandlerContextProvider(props: { children: ReactNode }): ReactEleme
     return (
         <AlertHandlerContext.Provider value={alertHandler}>
             <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{
+                    vertical: alert?.vertical || 'top',
+                    horizontal: alert?.horizontal || 'right',
+                }}
                 TransitionComponent={SlideTransition}
                 open={isOpen}
                 autoHideDuration={autoHideDuration}

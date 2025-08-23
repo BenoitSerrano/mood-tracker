@@ -5,6 +5,7 @@ const englishText = {
         dashboardButtonLabel: 'Go to dashboard',
         today: 'Today',
         yesterday: 'Yesterday',
+        moodSaved: 'Mood saved successfully!',
     },
     personalDashboard: {
         title: 'My dashboard',
@@ -90,6 +91,7 @@ const frenchText: TranslationTexts = {
         dashboardButtonLabel: 'Aller au tableau de bord',
         today: "Aujourd'hui",
         yesterday: 'Hier',
+        moodSaved: 'Humeur enregistrée !',
     },
     personalDashboard: {
         title: 'Mon tableau de bord',
