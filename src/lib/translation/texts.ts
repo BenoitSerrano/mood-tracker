@@ -109,7 +109,7 @@ const frenchText: TranslationTexts = {
     shared: {
         menu: {
             home: 'Accueil',
-            dashboard: 'Tableau de bord',
+            dashboard: 'Mon tableau de bord',
             friends: 'Amis',
         },
         timeMode: {

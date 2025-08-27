@@ -11,18 +11,23 @@ import { useLanguage } from '../../../lib/translation';
 import { MoodDetailDialog } from './MoodDetailDialog';
 import { useState } from 'react';
 import { HEADER_HEIGHT } from '../../../components/Header';
+import { ArrowButton } from './ArrowButton';
 
 function WeekMoods(props: {
     surroundingWeek: parsedDateType[];
     moods: moodApiType[] | undefined;
     todayParsedDate: parsedDateType;
     isLoading: boolean;
+    setNextDate: () => void;
+    setPreviousDate: () => void;
 }) {
     const { t } = useLanguage();
     const [touchedMood, setTouchedMood] = useState<moodApiType | undefined>(undefined);
 
     return (
         <Container>
+            <ArrowButton onClick={props.setPreviousDate} variant="left" />
+
             <Table>
                 <HeadRow>
                     <Cell />
@@ -80,6 +85,8 @@ function WeekMoods(props: {
                     );
                 })}
             </Table>
+            <ArrowButton onClick={props.setNextDate} variant="right" />
+
             <MoodDetailDialog touchedMood={touchedMood} onClose={() => setTouchedMood(undefined)} />
         </Container>
     );

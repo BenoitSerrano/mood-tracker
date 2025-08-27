@@ -4,54 +4,65 @@ import { compareDates, convertParsedDateToDateString, DAY_MOMENTS } from '../../
 import { DayMomentMood } from '../../../components/DayMomentMood';
 import { useLanguage } from '../../../lib/translation';
 import { HEADER_HEIGHT } from '../../../components/Header';
+import { ArrowButton } from './ArrowButton';
 
 function DayMoods(props: {
     todayParsedDate: parsedDateType;
     selectedDate: parsedDateType;
     moods: moodApiType[] | undefined;
     isLoading: boolean;
+    setNextDate: () => void;
+    setPreviousDate: () => void;
 }) {
     const { t } = useLanguage();
     const isDateInFuture = compareDates(props.selectedDate, props.todayParsedDate) > 0;
     return (
         <Container>
-            {dayMomentKeys.map((dayMomentKey) => {
-                const mood = props.moods?.find(
-                    (mood) =>
-                        mood.day_moment === dayMomentKey &&
-                        mood.day === convertParsedDateToDateString(props.selectedDate),
-                );
-                const DayMomentIconComponent = DAY_MOMENTS[dayMomentKey].iconComponent;
+            <ArrowButton onClick={props.setPreviousDate} variant="left" />
 
-                return (
-                    <Row key={dayMomentKey}>
-                        <RowLabelContainer>
-                            <Typography>{t(`shared.dayMoment.${dayMomentKey}`)}</Typography>
-                            <DayMomentIconComponent />
-                        </RowLabelContainer>
-                        <RowMoodContainer>
-                            <CellMoodContainer>
-                                {!isDateInFuture && (
-                                    <DayMomentMood mood={mood} isLoading={props.isLoading} />
-                                )}
-                            </CellMoodContainer>
-                        </RowMoodContainer>
-                    </Row>
-                );
-            })}
+            <Table>
+                {dayMomentKeys.map((dayMomentKey) => {
+                    const mood = props.moods?.find(
+                        (mood) =>
+                            mood.day_moment === dayMomentKey &&
+                            mood.day === convertParsedDateToDateString(props.selectedDate),
+                    );
+                    const DayMomentIconComponent = DAY_MOMENTS[dayMomentKey].iconComponent;
+
+                    return (
+                        <Row key={dayMomentKey}>
+                            <RowLabelContainer>
+                                <Typography>{t(`shared.dayMoment.${dayMomentKey}`)}</Typography>
+                                <DayMomentIconComponent />
+                            </RowLabelContainer>
+                            <RowMoodContainer>
+                                <CellMoodContainer>
+                                    {!isDateInFuture && (
+                                        <DayMomentMood mood={mood} isLoading={props.isLoading} />
+                                    )}
+                                </CellMoodContainer>
+                            </RowMoodContainer>
+                        </Row>
+                    );
+                })}
+            </Table>
+            <ArrowButton onClick={props.setNextDate} variant="right" />
         </Container>
     );
 }
 
 const Container = styled('div')(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'center',
     height: `calc(100% - ${HEADER_HEIGHT})`,
     width: '100%',
-    borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
+}));
+
+const Table = styled('div')(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
 }));
 
 const Row = styled('div')(({ theme }) => ({

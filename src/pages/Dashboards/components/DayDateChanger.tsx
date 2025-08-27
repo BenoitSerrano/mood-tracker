@@ -1,17 +1,14 @@
 import { IconButton, styled, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { convertParsedDateToReadableDate, modifyDateByDays } from '../../../lib/date';
-import { parsedDateType } from '../../../types';
 import { useEffect } from 'react';
 
 function DayDateChanger(props: {
-    selectedDate: parsedDateType;
-    setSelectedDate: (selectedDate: parsedDateType) => void;
+    setPreviousDate: () => void;
+    setNextDate: () => void;
+    title: string;
 }) {
-    const { selectedDate, setSelectedDate } = props;
-    const readableDate = convertParsedDateToReadableDate(selectedDate);
-    const { previousDate, nextDate } = computeNeighbouringDates(selectedDate);
+    const { setNextDate, setPreviousDate } = props;
     useEffect(() => {
         window.addEventListener('keypress', handleKeyPressEvent);
         return () => {
@@ -21,35 +18,29 @@ function DayDateChanger(props: {
         function handleKeyPressEvent(event: KeyboardEvent) {
             if (event.key === 'n') {
                 event.preventDefault();
-                setSelectedDate(nextDate);
+                setNextDate();
             } else if (event.key === 'p') {
                 event.preventDefault();
-                setSelectedDate(previousDate);
+                setPreviousDate();
             }
         }
-    }, [setSelectedDate, nextDate, previousDate]);
+    }, [setNextDate, setPreviousDate]);
 
     return (
         <Container>
             <DateContainer>
-                <Typography variant="h2">{readableDate}</Typography>
+                <Typography variant="h2">{props.title}</Typography>
             </DateContainer>
             <NavigationIconsContainer>
-                <IconButton onClick={() => setSelectedDate(previousDate)}>
+                <IconButton onClick={setPreviousDate}>
                     <ArrowBackIosNewIcon />
                 </IconButton>
-                <IconButton onClick={() => setSelectedDate(nextDate)}>
+                <IconButton onClick={setNextDate}>
                     <ArrowForwardIosIcon />
                 </IconButton>
             </NavigationIconsContainer>
         </Container>
     );
-}
-
-function computeNeighbouringDates(selectedDate: parsedDateType) {
-    const previousDate = modifyDateByDays(selectedDate, -1);
-    const nextDate = modifyDateByDays(selectedDate, 1);
-    return { previousDate, nextDate };
 }
 
 const Container = styled('div')(() => ({
@@ -60,9 +51,14 @@ const Container = styled('div')(() => ({
 }));
 
 const NavigationIconsContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+        display: 'none',
+    },
+    [theme.breakpoints.up('sm')]: {
+        display: 'flex',
+        paddingRight: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
+    },
 }));
 
 const DateContainer = styled('div')(({ theme }) => ({}));

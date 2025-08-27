@@ -6,6 +6,7 @@ import { useLanguage } from '../../../lib/translation';
 import { MoodDetailDialog } from './MoodDetailDialog';
 import { useState } from 'react';
 import { HEADER_HEIGHT } from '../../../components/Header';
+import { ArrowButton } from './ArrowButton';
 
 function MonthMoods(props: {
     todayParsedDate: parsedDateType;
@@ -13,11 +14,14 @@ function MonthMoods(props: {
     surroundingMonth: (number | undefined)[][];
     isLoading: boolean;
     selectedDate: parsedDateType;
+    setNextDate: () => void;
+    setPreviousDate: () => void;
 }) {
     const { t } = useLanguage();
     const [touchedMood, setTouchedMood] = useState<moodApiType | undefined>(undefined);
     return (
         <Container>
+            <ArrowButton onClick={props.setPreviousDate} variant="left" />
             <Table>
                 <HeadRow>
                     {daysOfTheWeekKeys.map((dayOfTheWeekKey) => {
@@ -78,6 +82,8 @@ function MonthMoods(props: {
                     </Row>
                 ))}
             </Table>
+            <ArrowButton onClick={props.setNextDate} variant="right" />
+
             <MoodDetailDialog touchedMood={touchedMood} onClose={() => setTouchedMood(undefined)} />
         </Container>
     );
@@ -88,7 +94,6 @@ const Container = styled('div')(({ theme }) => ({
     justifyContent: 'center',
     height: `calc(100% - ${HEADER_HEIGHT})`,
     width: '100%',
-    borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
 }));
 
