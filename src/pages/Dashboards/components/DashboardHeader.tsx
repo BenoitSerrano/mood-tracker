@@ -3,13 +3,15 @@ import { timeModeType } from '../constants';
 import { ReactNode, useEffect } from 'react';
 import { TimeModeChanger } from './TimeModeChanger';
 import { Header } from '../../../components/Header';
+import { FollowButton } from './FollowButton';
 
 function DashboardHeader(props: {
     timeMode: timeModeType;
     setTimeMode: (timeMode: timeModeType) => void;
     children: ReactNode;
+    userId?: string;
 }) {
-    const { setTimeMode } = props;
+    const { setTimeMode, userId } = props;
     useEffect(() => {
         window.addEventListener('keypress', handleKeyPressEvent);
         return () => {
@@ -34,6 +36,7 @@ function DashboardHeader(props: {
             <ContentContainer>
                 {props.children}
                 <TimeModeChanger timeMode={props.timeMode} setTimeMode={props.setTimeMode} />
+                {!!userId && <FollowButton friendId={userId} />}
             </ContentContainer>
         </Header>
     );

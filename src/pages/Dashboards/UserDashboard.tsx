@@ -20,7 +20,12 @@ function UserDashboard() {
     const title = computeTitle();
 
     return (
-        <Dashboard title={title} moods={moodsApiQuery.data} isLoading={moodsApiQuery.isLoading} />
+        <Dashboard
+            userId={userId}
+            title={title}
+            moods={moodsApiQuery.data}
+            isLoading={moodsApiQuery.isLoading}
+        />
     );
 
     function computeTitle() {

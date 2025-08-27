@@ -2,7 +2,6 @@ import { IconButton, styled, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useEffect } from 'react';
-
 function DayDateChanger(props: {
     setPreviousDate: () => void;
     setNextDate: () => void;

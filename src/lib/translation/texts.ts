@@ -10,6 +10,10 @@ const englishText = {
     personalDashboard: {
         title: 'My dashboard',
     },
+    userDashboard: {
+        followButton: 'Follow',
+        successMessage: "You're now following your friend",
+    },
     landing: {
         signUpCard: {
             title: 'First time here?',
@@ -95,6 +99,10 @@ const frenchText: TranslationTexts = {
     },
     personalDashboard: {
         title: 'Mon tableau de bord',
+    },
+    userDashboard: {
+        followButton: 'Suivre',
+        successMessage: 'Vous suivez maintenant votre ami',
     },
     landing: {
         signUpCard: {

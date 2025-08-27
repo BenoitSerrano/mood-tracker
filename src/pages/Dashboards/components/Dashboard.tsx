@@ -25,6 +25,7 @@ function Dashboard(props: {
     moods: moodApiType[] | undefined;
     isLoading: boolean;
     title: string | undefined;
+    userId?: string;
 }) {
     const { t } = useLanguage();
     const todayParsedDate = convertDateToParsedDate(new Date());
@@ -47,7 +48,12 @@ function Dashboard(props: {
                 const dayTitle = convertParsedDateToReadableDate(selectedDate);
 
                 return [
-                    <DashboardHeader key="header-day" setTimeMode={setTimeMode} timeMode={timeMode}>
+                    <DashboardHeader
+                        userId={props.userId}
+                        key="header-day"
+                        setTimeMode={setTimeMode}
+                        timeMode={timeMode}
+                    >
                         <DayDateChanger
                             setNextDate={setNextDateForDay}
                             setPreviousDate={setPreviousDateForDay}
@@ -74,6 +80,7 @@ function Dashboard(props: {
                 const setNextDateForWeek = () => setSelectedDate(neighbouringDatesForWeek.nextDate);
                 return [
                     <DashboardHeader
+                        userId={props.userId}
                         key="header-week"
                         setTimeMode={setTimeMode}
                         timeMode={timeMode}
@@ -105,6 +112,7 @@ function Dashboard(props: {
 
                 return [
                     <DashboardHeader
+                        userId={props.userId}
                         key="header-month"
                         setTimeMode={setTimeMode}
                         timeMode={timeMode}

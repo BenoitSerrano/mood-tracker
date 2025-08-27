@@ -10,6 +10,7 @@ const api = {
     login,
     getUserInfo,
     getFriendsWithLastMood,
+    addFriend,
 };
 
 async function ping() {
@@ -53,6 +54,13 @@ async function getUserInfo(params: { userId: string }) {
 }
 async function getFriendsWithLastMood() {
     return performApiCall<friendWithLastMoodType[]>('friends/with-last-mood', 'GET');
+}
+
+async function addFriend(friendId: string) {
+    return performApiCall<{ ok: true }>(`friends/add`, 'POST', {
+        kind: 'data',
+        data: { friendId },
+    });
 }
 
 export { api };
