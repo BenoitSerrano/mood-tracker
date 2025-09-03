@@ -4,6 +4,7 @@ import { ReactNode, useEffect } from 'react';
 import { TimeModeChanger } from './TimeModeChanger';
 import { Header } from '../../../components/Header';
 import { FollowButton } from './FollowButton';
+import { jwtHandler } from '../../../lib/storage/jwtHandler';
 
 function DashboardHeader(props: {
     timeMode: timeModeType;
@@ -12,6 +13,8 @@ function DashboardHeader(props: {
     userId?: string;
 }) {
     const { setTimeMode, userId } = props;
+    const isAuthenticated = !!jwtHandler.get();
+
     useEffect(() => {
         window.addEventListener('keypress', handleKeyPressEvent);
         return () => {
@@ -36,7 +39,7 @@ function DashboardHeader(props: {
             <ContentContainer>
                 {props.children}
                 <TimeModeChanger timeMode={props.timeMode} setTimeMode={props.setTimeMode} />
-                {!!userId && <FollowButton friendId={userId} />}
+                {!!userId && isAuthenticated && <FollowButton friendId={userId} />}
             </ContentContainer>
         </Header>
     );
