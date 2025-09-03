@@ -124,7 +124,7 @@ function Dashboard(props: {
                         />
                     </DashboardHeader>,
                     <MonthMoods
-                        setNextDate={setPreviousDateForMonth}
+                        setNextDate={setNextDateForMonth}
                         setPreviousDate={setPreviousDateForMonth}
                         todayParsedDate={todayParsedDate}
                         key="month-moods"
